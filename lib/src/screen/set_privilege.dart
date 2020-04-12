@@ -16,14 +16,33 @@ class Company {
 
   Company(this.id, this.name);
 
+  // static List<Company> getCompanies() {
+  //   return <Company>[
+  //     // Company(1, 'ค้นอุปกรณ์/คลังศูนย์'),
+  //     // Company(2, 'ค้นอุปกรณ์/ค้นหนังสือ/เพิ่มรายการ/อุปกรณ์'),
+  //     Company(3, 'เพิ่มหนังสือ/ประเภท/ยี่ห้อ/รุ่น'), //ศูนย์อำนวยการฝ่าย
+  //     Company(6, 'ติดตั้ง ONU (NEW)/(ONUเก่า)ใช้ใหม่'), //ผู้รับเหมา/ช่าง tot
+  //     Company(7, 'ติดตั้ง ONU (NEW)'), //ผู้รับเหมา/ช่าง tot
+  //     Company(8, 'ค้นอุปกรณ์/ค้นหนังสือ/เพิ่มรายการ/อุปกรณ์/เก็บONU'), //ศูนย์สนับสนุน
+  //     Company(9, 'เก็บคืน/ตรวจสอบ'), // ศูนย์สื่อสาร
+  //     Company(10, 'เก็บคืน/ตรวจสอบ/(ONUเก่า)ใช้ใหม่'), // ศูนย์ตอนนอก
+  //     Company(11, 'ค้น/คลัง/รับโอน/New/เก็บ/ตรวจสอบ//(ONUเก่า)ใช้ใหม่'), //ศูนย์บริการ
+  //     Company(12, 'Admin'),
+  //   ];
+  // }
+
   static List<Company> getCompanies() {
     return <Company>[
-      Company(1, 'Sub (ติดตั้ง onu ใหม่)'),
-      Company(2, 'Out (ติดตั้ง onu reused)'),
-      Company(3, 'Cs (เก็บคืน ทำความสะอาด)'),
-      Company(4, 'Sup_province (จังหวัด นำเข้า, โอนย้าย)'),
-      Company(5, 'Back_office (รายงาน, จัดการuser)'),
-      Company(6, 'Admin'),
+      // Company(1, 'ค้นอุปกรณ์/คลังศูนย์'),
+      // Company(2, 'ค้นอุปกรณ์/ค้นหนังสือ/เพิ่มรายการ/อุปกรณ์'),
+      Company(3, 'ส่วนอำนวยการฝ่าย'),
+      Company(6, 'ผู้รับเหมา/ช่าง tot'),
+      // Company(7, 'ติดตั้ง ONU (NEW)'),
+      Company(8, 'ศูนย์สนับสนุน การปฏิบัติการ'),
+      // Company(9, 'เก็บคืน/ตรวจสอบ'), 
+      // Company(10, 'เก็บคืน/ตรวจสอบ/(ONUเก่า)ใช้ใหม่'), 
+      Company(11, 'ศูนย์บริการลูกค้า'),
+      Company(12, 'สิทธิ Admin'),
     ];
   }
 }
@@ -36,6 +55,7 @@ class _SetPrivState extends State<SetPriv> {
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
   Company _selectedCompany;
+  int privilegeA = 0;
   SharedPreferences prefs;
 
   List data = List(); //edited line
@@ -43,6 +63,7 @@ class _SetPrivState extends State<SetPriv> {
   Future<String> getSWData() async {
     prefs = await SharedPreferences.getInstance();
     String tempprv = prefs.getString('sprv');
+    privilegeA = prefs.getInt('spriv');
     String url =
         "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getdivisions/$tempprv";
     var res = await http

@@ -52,11 +52,11 @@ class _DefaultHomeState extends State<DefaultHome> {
       children: <Widget>[
         (temps != 'xxx') 
         ? Text(
-          'มีสิทธิใช้งาน ปัดที่ขอบจอด้านซ้าย \r\n เลือก ทำรายการตามเมนู',
+          'มีสิทธิใช้งาน app ได้ 20นาที/login 1 ครั้ง \r\n ปัดที่ขอบจอด้านซ้ายเลือก ทำรายการ ',
           style: TextStyle(fontSize: 20.0, color: Colors.green.shade900),
         ) 
         : Text(
-          ' User register เรียบร้อย \r\n แต่ยังไม่กำหนดศูนย์ที่สังกัด \r\n กรุณาติดต่อ Admin',
+          ' User register เรียบร้อย \r\n กรุณาติดต่อ Admin \r\n เพราะยังไม่กำหนด ศูนย์/สิทธิ ',
           style: TextStyle(fontSize: 20.0, color: Colors.green.shade900),
         )
       ],
@@ -84,7 +84,7 @@ class _DefaultHomeState extends State<DefaultHome> {
             elevation: 0.0,
             leading: Padding( // --> Custom Back Button
                 padding: const EdgeInsets.all(8.0),
-                child: (getpriv >= 4) ? FloatingActionButton( // call admin icon
+                child: (getpriv >= 12) ? FloatingActionButton( // call admin icon
                   backgroundColor: Colors.green.shade600,
                   mini: true,
                   onPressed: this._onBackPressed,
@@ -110,8 +110,9 @@ class _DefaultHomeState extends State<DefaultHome> {
                 (getlinepic.isNotEmpty) ?
           Image.network(
             getlinepic, 
-            width: 200, 
-            height: 180
+            fit: BoxFit.cover
+            // width: 200, 
+            // height: 180
           ) : Icon(Icons.person),
           SizedBox(
             height: 10.0,

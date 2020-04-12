@@ -1,56 +1,46 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class RelateId extends StatefulWidget {
-  RelateId() : super();
-
+class AddSoon extends StatefulWidget {
   @override
-  _RelateIdState createState() => _RelateIdState();
+  _AddSoonState createState() => _AddSoonState();
 }
 
 class Company {
   int id;
   String name;
-  
 
   Company(this.id, this.name);
 
   static List<Company> getCompanies() {
     return <Company>[
-      Company(1, 'Apple'),
-      Company(2, 'Google'),
-      Company(3, 'Samsung'),
-      Company(4, 'Sony'),
-      Company(5, 'LG'),
+      Company(1, 'ภน.2.1'),
+      Company(2, 'ภน.2.2'),
     ];
   }
 }
 
-class _RelateIdState extends State<RelateId> {
-// Explicit
+class _AddSoonState extends State<AddSoon> {
+
+  // Explicit
   final formKey = GlobalKey<FormState>();
-  String nameString, emailString, passwordString, _mySelection, rstoreprv, _mySelectionCS, urlcs;
+  String nameString1, nameString2, abbrOString, abbrTString, _mySelection, codeone, tempprv;
   // FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
   Company _selectedCompany;
   SharedPreferences prefs;
-  int privilegeA = 0;
-  int privilegeB = 0;
+
+  final String url =
+      "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getprovince";
 
   List data = List(); //edited line
-  List datacs = List(); //edited line
 
   Future<String> getSWData() async {
-    prefs = await SharedPreferences.getInstance();
-    String tempprv = prefs.getString('sprv');
-    privilegeA = prefs.getInt('spriv');
-    var ac = (tempprv.split('-'));
-    String firstc = ac[0];
-    String url =
-        "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getdivisions/$firstc";
     var res = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
@@ -61,46 +51,25 @@ class _RelateIdState extends State<RelateId> {
 
     print(resBody);
 
-    return "Success";
+    return "Sucess";
   }
 
-  Future<String> getCSData() async {
-    prefs = await SharedPreferences.getInstance();
-    String tempprv = prefs.getString('sprv');
-    privilegeB = prefs.getInt('spriv');
-    var ab = (tempprv.split('-'));
-    String firsta = ab[0];
-    String firstb = ab[1];
-    // http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getprovince_concat
-    if(privilegeB == 12){
-    print(firstb);
-    urlcs = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getcservice_concat2/$firstb";
-    }else{
-    print(firsta);
-    urlcs = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getcservice_concat/$firsta";
-    }
-        
-    var rescs = await http
-        .get(Uri.encodeFull(urlcs), headers: {"Accept": "application/json"});
-    var resBodycs = json.decode(rescs.body);
-
+  void createCode() {
+    int randInt = Random().nextInt(10000);
     setState(() {
-      datacs = resBodycs;
+      codeone = '$randInt';
     });
-
-    print(resBodycs);
-
-    return "Success CS";
+    
   }
 
   @override
   void initState() {
     _dropdownMenuItems = buildDropdownMenuItems(_companies);
     _selectedCompany = _dropdownMenuItems[0].value;
-    
     super.initState();
-    // this.getSWData();
-    this.getCSData();
+    this.getSWData();
+    setUpDisplayName();
+    createCode();
   }
 
   List<DropdownMenuItem<Company>> buildDropdownMenuItems(List companies) {
@@ -122,16 +91,13 @@ class _RelateIdState extends State<RelateId> {
     });
   }
 
-  
-
   // Method
-  Widget nameText() {
+  Widget nameText1() {
     return TextFormField(
-      initialValue: 'ที่ลงทะเบียนเรียบร้อย',
       decoration: InputDecoration(
-        labelText: 'รหัสพนักงาน/OS :',
+        labelText: 'LocationName :',
         labelStyle: TextStyle(color: Colors.pink[400]),
-        helperText: 'Type Emplyee Id',
+        helperText: 'ชื่อเต็ม ศูนย์',
         helperStyle: TextStyle(color: Colors.pink[400]),
         icon: Icon(
           Icons.face,
@@ -140,116 +106,64 @@ class _RelateIdState extends State<RelateId> {
         ),
       ),
       validator: (String value) {
-        if (value.isEmpty) {
-          return 'Type Emplyee Id';
+        if ((value.isEmpty) || (value.length <= 8)) {
+          return 'พิมพ์ชื่อเต็ม ศูนย์';
         } else {
           return null;
         }
       },
       onSaved: (String value) {
-        nameString = value.toUpperCase();
+        nameString1 = value;
       },
     );
   }
 
-  Widget emailText() {
+  Widget nameText2() {
     return TextFormField(
-      keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-        labelText: 'อีเมล์ :',
-        labelStyle: TextStyle(color: Colors.blue),
-        helperText: 'Type you@email.com',
-        helperStyle: TextStyle(color: Colors.blue),
+        labelText: 'LocationCode :',
+        labelStyle: TextStyle(color: Colors.orange[600]),
+        helperText: 'รหัส ประจำศูนย์',
+        helperStyle: TextStyle(color: Colors.orange[600]),
         icon: Icon(
-          Icons.email,
+          Icons.assignment_ind,
           size: 36.0,
-          color: Colors.blue,
+          color: Colors.orange[600],
         ),
       ),
       validator: (String value) {
-        if (!((value.contains('@')) && (value.contains('.')))) {
-          return 'Type Email Format';
+        if ((value.isEmpty) || (value.length <= 8)) {
+          return 'รหัส ประจำศูนย์';
         } else {
           return null;
         }
       },
       onSaved: (String value) {
-        emailString = value;
+        nameString2 = value;
       },
     );
   }
 
-  Widget passwordText() {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: 'พาสเวิร์ด :',
-        labelStyle: TextStyle(color: Colors.green),
-        helperText: 'More 6 Charactor',
-        helperStyle: TextStyle(color: Colors.green),
-        icon: Icon(
-          Icons.lock,
-          size: 36.0,
-          color: Colors.green,
-        ),
-      ),
-      validator: (String value) {
-        if (value.length <= 5) {
-          return 'Password Much More 6 Charactor';
-        } else {
-          return null;
-        }
-      },
-      onSaved: (String value) {
-        passwordString = value;
-      },
-    );
-  }
-
-  Widget showDrow() {
-    return Column(
-      children: <Widget>[
-        Text(
-          'เลือก ชื่อศูนย์ที่สังกัด',
-          style: TextStyle(fontSize: 18.0),
-        ),
-        // Text('เก็บคืน ONU')
-      ],
-    );
-  }
-
-  Widget dropdowncsButton() {
+  Widget dropdownstatic() {
     return DropdownButton(
       icon: Icon(Icons.arrow_downward),
-      hint: Text('กรุณาเลือก ศูนย์'),
       iconSize: 36,
       elevation: 26,
       style: TextStyle(
         color: Colors.deepPurple,
         fontSize: 18.0,
       ),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      items: datacs.map((item) {
-        return new DropdownMenuItem(
-          child: new Text(item['itemC']),
-          value: item['LocationName'],
-        );
-      }).toList(),
-      onChanged: (newVal) {
-        setState(() {
-          _mySelectionCS = newVal;
-        });
-      },
-      value: _mySelectionCS,
+      value: _selectedCompany,
+      items: _dropdownMenuItems,
+      onChanged: onChangeDropdownItem,
     );
   }
 
+  
   Widget dropdownButton() {
     return DropdownButton(
-      icon: Icon(Icons.arrow_downward),
-      hint: Text('กรุณาเลือก ส่วน/ศูนย์'),
+      icon: Icon(Icons.arrow_drop_down),
+      hint: Text('กรุณาเลือก จังหวัด'),
       iconSize: 36,
       elevation: 26,
       style: TextStyle(
@@ -262,8 +176,9 @@ class _RelateIdState extends State<RelateId> {
       ),
       items: data.map((item) {
         return new DropdownMenuItem(
-          child: new Text(item['sdivisiontwo']),
-          value: item['sdivision'].toString(),
+          child: new Text(item['itemC']),
+          // child: new Text(item['provinceEN']),
+          value: item['province'],
         );
       }).toList(),
       onChanged: (newVal) {
@@ -275,14 +190,6 @@ class _RelateIdState extends State<RelateId> {
     );
   }
 
-  Widget dropdownstatic() {
-    return DropdownButton(
-      value: _selectedCompany,
-      items: _dropdownMenuItems,
-      onChanged: onChangeDropdownItem,
-    );
-  }
-
   Widget uploadButton() {
     return IconButton(
       icon: Icon(Icons.cloud_upload),
@@ -290,7 +197,8 @@ class _RelateIdState extends State<RelateId> {
         print('Upload');
         if (formKey.currentState.validate()) {
           formKey.currentState.save();
-          print('Name = $nameString, Drop1 = $_mySelection, Drop2 = $_mySelectionCS');
+          print(
+              'Name1 = $nameString1, Name2 = $codeone, dropdown = $_mySelection, Drop = ${_selectedCompany.name}, abbr =$tempprv');
           register();
         }
       },
@@ -298,14 +206,19 @@ class _RelateIdState extends State<RelateId> {
   }
 
   Future<void> register() async {
-    // addgroup
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/addgroup";
+    // http://8a7a08360daf.sn.mynetname.net:2528/api/getprovince";
+    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/addsoon";
+
+    var ab = (tempprv.split('-'));
+    String firsta = ab[0];
 
     var body = {
-                "idstaff": nameString.trim(), 
-                // "ndivision": _mySelection.trim(),
-                "csservice": _mySelectionCS.trim(),
-                };
+      "Name1": nameString1.trim(),
+      "Name2": codeone,
+      "dropdown": _mySelection,
+      "fai": _selectedCompany.name,
+      "abbr": firsta
+    };
     //setUpDisplayName();
     // var response = await get(urlString);
     var response = await http.post(urlpost, body: body);
@@ -319,10 +232,11 @@ class _RelateIdState extends State<RelateId> {
         myAlert('Not Insert', 'No Create in my Database');
       } else {
         if (result['status']) {
-          String getmessage = result['message2'];
+          String getmessage = result['message'];
           myAlert('OK', '$getmessage');
         } else {
-          myAlert('Not OK', 'message = Null');
+          String getmessage = result['message'];
+          myAlert('Not OK', '$getmessage');
         }
       }
     } else {
@@ -331,9 +245,31 @@ class _RelateIdState extends State<RelateId> {
     }
   }
 
-   Widget mySizeBoxH() {
-    return SizedBox(
-      height: 25.0,
+  Future<void> setUpDisplayName() async {
+
+    prefs = await SharedPreferences.getInstance();
+
+    tempprv = prefs.getString('sprv');
+    // await firebaseAuth.currentUser().then((response) {
+    //   UserUpdateInfo updateInfo = UserUpdateInfo();
+    //   updateInfo.displayName = nameString;
+    //   response.updateProfile(updateInfo);
+
+    // var serviceRoute =
+    //     MaterialPageRoute(builder: (BuildContext context) => ;
+    // Navigator.of(context)
+    //     .pushAndRemoveUntil(serviceRoute, (Route<dynamic> route) => false);
+    
+  }
+
+  Widget showText2() {
+    return Text(
+      'เลือก ฝ่ายที่สังกัด',
+      style: TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.green[800],
+          fontFamily: 'PermanentMarker'),
     );
   }
 
@@ -366,7 +302,7 @@ class _RelateIdState extends State<RelateId> {
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         backgroundColor: Colors.green[800],
-        title: Text('ผูก รหัสพนักงาน กับศูนย์'),
+        title: Text('สร้างข้อมูล ศูนย์ ใต้ส่วนงาน'),
         actions: <Widget>[uploadButton()],
       ),
       body: Form(
@@ -385,17 +321,15 @@ class _RelateIdState extends State<RelateId> {
             decoration: BoxDecoration(
               color: Color.fromRGBO(255, 255, 255, 0.8),
             ),
-            width: 400.0,
+            width: 300.0,
             height: 700.0,
             child: Column(
               children: <Widget>[
-                nameText(),
-                // emailText(),
-                // passwordText(),
-                // dropdownButton(),
-                mySizeBoxH(),
-                showDrow(),
-                dropdowncsButton(),
+                nameText1(),
+                // nameText2(),
+                dropdownButton(),
+                showText2(),
+                dropdownstatic(),
               ],
             ),
           ),

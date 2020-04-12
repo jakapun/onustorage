@@ -58,14 +58,16 @@ class _HomePageState extends State<HomePage>
         child: Column(
           children: <Widget>[
             // _configCard(),
+
             Container(
-              width: 300.0,
-              height: 500.0,
+              // width: 300.0,
+              // height: 500.0,
               child: Image.asset(
                 'images/login1.png',
                 fit: BoxFit.contain,
               ),
             ),
+
             Expanded(
                 child: Center(
               child: RaisedButton(

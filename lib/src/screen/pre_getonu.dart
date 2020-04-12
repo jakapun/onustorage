@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:onu_storage/src/screen/post_ionu.dart';
+import 'package:onu_storage/src/screen/lastsubmit.dart';
+// import 'package:onu_storage/src/screen/post_ionu.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +16,7 @@ class PreGetOnu extends StatefulWidget {
 class _PreGetOnuState extends State<PreGetOnu> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  String qrCodeString = '', tempprv, temprela, token = '', tempuid = '';
+  String qrCodeString = '', tempprv, temprela, token = '', tempuid = '', tempcs = '';
   bool _isButtonDisabled = true;
   SharedPreferences prefs;
 
@@ -36,6 +37,7 @@ class _PreGetOnuState extends State<PreGetOnu> {
     temprela = prefs.getString('srelate');
     token = prefs.getString('stoken');
     tempuid = prefs.getString('suid');
+    tempcs = prefs.getString('scouters');
 
   }
 
@@ -183,6 +185,9 @@ class _PreGetOnuState extends State<PreGetOnu> {
     //req.body.onuid
     var body = {
       "onuid": qrCodeString.trim(),
+      "userlast": tempuid.trim(),
+      "province": tempprv.trim(),
+      "cservice": tempcs.trim(),
       // "qrtext": qrCodeString.trim()
     };
     
@@ -203,7 +208,7 @@ class _PreGetOnuState extends State<PreGetOnu> {
           print('_isButtonDisabled = false');
         }
         if ((result['status']) && (result['success'])) {
-          // String getmessage = result['message2'];
+          String getmessage = result['message2'];
 
           // result['dtype']
           // result['dname']
@@ -211,7 +216,7 @@ class _PreGetOnuState extends State<PreGetOnu> {
 
            
           var addChildrenRoute = MaterialPageRoute(
-          builder: (BuildContext context) => Postinstall(lastqrtxt: qrCodeString, sdtype: result['dtype'], sdname: result['dname'], sdmodel: result['dmodel'] ));
+          builder: (BuildContext context) => LastSubM(successtxt: getmessage) );
           Navigator.of(context).push(addChildrenRoute);
 
         } else {

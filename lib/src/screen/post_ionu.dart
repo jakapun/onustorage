@@ -7,7 +7,7 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
-import 'package:onu_storage/src/screen/my_success.dart';
+import 'package:onu_storage/src/screen/lastsubmit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:grouped_buttons/grouped_buttons.dart';
@@ -186,8 +186,8 @@ class _PostinstallState extends State<Postinstall> {
         if ((result['status']) && (result['success'])) {
           String getmessage = result['message'];
       
-          var addChildrenRoute = MaterialPageRoute(
-              builder: (BuildContext context) => Mysuccess(successtxt: getmessage));
+          var addChildrenRoute = MaterialPageRoute( //condition: radiovalue, datafind: name.toUpperCase()
+          builder: (BuildContext context) => LastSubM(successtxt: getmessage));
           Navigator.of(context).push(addChildrenRoute);
 
         } else {

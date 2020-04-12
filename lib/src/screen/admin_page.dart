@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:onu_storage/src/screen/add_newsoon.dart';
 import 'package:onu_storage/src/screen/delete_user.dart';
+import 'package:onu_storage/src/screen/finduser.dart';
 import 'package:onu_storage/src/screen/new_section.dart';
 import 'package:onu_storage/src/screen/relate_id.dart';
 import 'package:onu_storage/src/screen/set_privilege.dart';
@@ -109,6 +111,26 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
+  Widget findUButton() {
+    return RaisedButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+      color: Colors.green[900],
+      child: Text(
+        'ค้น USER',
+        style: TextStyle(color: Colors.white),
+      ),
+      onPressed: () {
+        // formKey.currentState.save();
+        // checkAuthen();
+        MaterialPageRoute materialPageRoute =
+            MaterialPageRoute(builder: (BuildContext context) => FindUsers());
+        Navigator.of(context).push(materialPageRoute);
+      },
+    );
+  }
+
   
   Future<void> checkAuthen() async {
     print('email = $emailString, password = $passwordString');
@@ -163,6 +185,25 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
+  Widget createSoon() {
+    return OutlineButton(
+      borderSide: BorderSide(color: Colors.green.shade900),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+      color: Colors.green[900],
+      child: Text(
+        'สร้างศูนย์...',
+        style: TextStyle(color: Colors.green.shade900),
+      ),
+      onPressed: () {
+        MaterialPageRoute materialPageRoute =
+            MaterialPageRoute(builder: (BuildContext context) => AddSoon());
+        Navigator.of(context).push(materialPageRoute);
+      },
+    );
+  }
+
   Widget freeButton2() {
     return OutlineButton(
       borderSide: BorderSide(color: Colors.green.shade900),
@@ -191,12 +232,26 @@ class _AdminPageState extends State<AdminPage> {
             children: <Widget>[
               Expanded(
                 // child: singInButton(),
-                child: (temppriv >= 4) ? singInButton() : freeButton2(),
+                child: (temppriv >=12) ? singInButton() : freeButton2(),
               ),
               mySizeBox(),
               Expanded(
                 // child: singUpButton(),
-                child: (temppriv >= 4) ? singUpButton() : freeButton2(),
+                child: (temppriv >=12) ? findUButton() : freeButton2(),
+              ),
+            ],
+          ),
+          mySizeBoxH(),
+          Row(
+            children: <Widget>[
+              Expanded(
+                // child: freeButton2(),
+                child: (temppriv >=12) ? createSoon() : freeButton2(),
+              ),
+              mySizeBox(),
+              Expanded(
+                // (temppriv == 4) ? menuAdmin() : mySizeBoxH(),
+                child: (temppriv >=12) ? freeButton() : freeButton2(),
               ),
             ],
           ),
@@ -209,20 +264,7 @@ class _AdminPageState extends State<AdminPage> {
               mySizeBox(),
               Expanded(
                 // (temppriv == 4) ? menuAdmin() : mySizeBoxH(),
-                child: (temppriv >= 4) ? freeButton() : freeButton2(),
-              ),
-            ],
-          ),
-          mySizeBoxH(),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: freeButton2(),
-              ),
-              mySizeBox(),
-              Expanded(
-                // (temppriv == 4) ? menuAdmin() : mySizeBoxH(),
-                child: (temppriv >= 4) ? freeButton3() : freeButton2(),
+                child: (temppriv >=12) ? freeButton3() : freeButton2(),
               ),
             ],
           ),

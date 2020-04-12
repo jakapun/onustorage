@@ -1,24 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:onu_storage/src/screen/api_page.dart';
 
-class Register extends StatefulWidget {
-  final String lineid, deviceid;
-
-  Register({
-    Key key,
-    @required this.lineid,
-    this.deviceid,
-  }) : super(key: key);
-
+class OnlyWeb extends StatefulWidget {
   @override
-  _RegisterState createState() => _RegisterState();
+  _OnlyWebState createState() => _OnlyWebState();
 }
 
-class _RegisterState extends State<Register> {
+class _OnlyWebState extends State<OnlyWeb> {
+
   // Explicit
 
   final formKey = GlobalKey<FormState>();
@@ -26,9 +19,7 @@ class _RegisterState extends State<Register> {
       nameStringl,
       emailString,
       passwordString,
-      _mySelection,
-      getlineid,
-      getdeviceid;
+      _mySelection;
   // FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   // 8a7a0833c6dc.sn.mynetname.net fttx200/200
   final String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getprovince_concat";
@@ -50,11 +41,9 @@ class _RegisterState extends State<Register> {
     return "Sucess";
   }
 
-  @override
+    @override
   void initState() {
     super.initState();
-    getlineid = widget.lineid;
-    getdeviceid = widget.deviceid;
     this.getSWData();
   }
 
@@ -219,7 +208,7 @@ class _RegisterState extends State<Register> {
         FloatingActionButton(
           elevation: 15.0,
           // foregroundColor: Colors.green[900],
-          tooltip: 'กดเพื่อ Register User',
+          tooltip: 'กดเพื่อ Regis User ใช้งานบน Web',
           child: Icon(
             Icons.cloud_upload,
             size: 40.0,
@@ -228,12 +217,12 @@ class _RegisterState extends State<Register> {
           onPressed: () {
             if (formKey.currentState.validate()) {
               formKey.currentState.save();
-              if ((getdeviceid.isEmpty) || (getlineid.isEmpty)) {
+              if (emailString.isEmpty) {
                 myAlert('มีข้อผิดพลาด',
                     'ไม่มี Line UserId  \r\n ไม่มี DeviceId \r\n ที่ต้องใช้งาน');
               } else {
                 print(
-                    'line User id = $getlineid, DeviceID = $getdeviceid, namef = $nameStringf, namel = $nameStringl, totid = $emailString, passweb = $passwordString, dropdown = $_mySelection');
+                    'namef = $nameStringf, namel = $nameStringl, totid = $emailString, passweb = $passwordString, dropdown = $_mySelection');
                 _onShowCondition();
                 // register();
               }
@@ -246,15 +235,12 @@ class _RegisterState extends State<Register> {
 
   Future<void> register() async {
     // http://8a7a08360daf.sn.mynetname.net:2528/api/getprovince";
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/signup";
+    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/signupweb";
     String fullname = '$nameStringf $nameStringl';
     var body = {
       "fullname": fullname,
-      "username": getlineid,
-      "password": getdeviceid,
       "province": _mySelection.trim(),
       "fname": nameStringf.trim(),
-      "deviceid": getdeviceid,
       "employeeid": emailString.trim(),
       "passwordweb": passwordString.trim()
     };
@@ -300,7 +286,7 @@ class _RegisterState extends State<Register> {
     return showDialog(
         context: context,
         builder: (context) => CupertinoAlertDialog(
-              title: Text('ต้องการ Regis $nameStringf \r\n username = $emailString \r\n password = $passwordString ?'),
+              title: Text('ต้องการ RegisUser ใช้บน web \r\n username = $emailString \r\n password = $passwordString ?'),
               actions: <Widget>[
                 FlatButton(
                   child: Text('No',
@@ -341,13 +327,14 @@ class _RegisterState extends State<Register> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         backgroundColor: Colors.green[800],
-        title: Text('ลงทะเบียน User'),
+        title: Text('ลงทะเบียน User เพื่อใช้บน web เท่านั้น'),
         // actions: <Widget>[uploadButton()],
       ),
       body: Form(

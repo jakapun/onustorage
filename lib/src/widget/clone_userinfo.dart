@@ -8,7 +8,10 @@ import 'package:http/http.dart';
 import 'package:onu_storage/src/app.dart';
 import 'package:onu_storage/src/default_home.dart';
 import 'package:onu_storage/src/screen/clean_onu.dart';
+import 'package:onu_storage/src/screen/delwSerial.dart';
+import 'package:onu_storage/src/screen/findone.dart';
 import 'package:onu_storage/src/screen/import_onu.dart';
+import 'package:onu_storage/src/screen/only_web.dart';
 import 'package:onu_storage/src/screen/pickup_onu.dart';
 import 'package:onu_storage/src/screen/pre_getonu.dart';
 import 'package:onu_storage/src/screen/pre_pickup.dart';
@@ -376,9 +379,10 @@ class _CloneUserState extends State<CloneUser> {
               children: <Widget>[
                 (picurl.isNotEmpty) ?
           Image.network(
-            picurl, 
-            width: 200, 
-            height: 200
+            picurl,
+            fit: BoxFit.cover
+            // width: 200, 
+            // height: 200
           ) : Icon(Icons.person),
                 (temps == 'xxx')  ? showTextndef() : showText(),
                 mySizeBoxH(),
@@ -485,10 +489,32 @@ class _CloneUserState extends State<CloneUser> {
     ); // https://material.io/resources/icons/?style=baseline
   }
 
+  Widget formonlyweb() {
+    return ListTile(
+      leading: Icon(
+        Icons.account_box,
+        size: 36.0,
+        color: Colors.pink[300],
+      ),
+      title: Text(
+        'ลงทะเบียน user \'ใช้บน web เท่านั้น\'',
+        style: TextStyle(fontSize: 18.0),
+      ),
+      // on tap == on click
+      onTap: () {
+        Navigator.of(context).pop();
+        setState(() {
+          myWidget = OnlyWeb();
+          // Navigator.of(context).pop();
+        });
+      },
+    ); // https://material.io/resources/icons/?style=baseline
+  }
+
   Widget csZerodot5() {
     return ListTile(
       leading: Icon(
-        Icons.filter_2,
+        Icons.filter_3,
         size: 36.0,
         color: Colors.yellow[700],
       ),
@@ -507,15 +533,37 @@ class _CloneUserState extends State<CloneUser> {
     ); // https://material.io/resources/icons/?style=baseline
   }
 
+  Widget delCPEcus() {
+    return ListTile(
+      leading: Icon(
+        Icons.block,
+        size: 36.0,
+        color: Colors.orange,
+      ),
+      title: Text(
+        'ลบข้อมูล ONU/อุปกรณ์ที่เก็บ',
+        style: TextStyle(fontSize: 18.0),
+      ),
+      // on tap == on click
+      onTap: () {
+        Navigator.of(context).pop();
+        setState(() {
+          myWidget = DelWserial();
+          // Navigator.of(context).pop();
+        });
+      },
+    ); // https://material.io/resources/icons/?style=baseline
+  }
+
   Widget menuInstallOnu() {
     return ListTile(
       leading: Icon(
-        Icons.filter_3,
+        Icons.filter_4,
         size: 36.0,
         color: Colors.brown[400],
       ),
       title: Text(
-        'ติดตั้ง ONU (New)',
+        'ติดตั้ง ONU (NEW)',
         style: TextStyle(fontSize: 18.0),
       ),
       // on tap == on click
@@ -533,7 +581,7 @@ class _CloneUserState extends State<CloneUser> {
   Widget menuPickupOnu() {
     return ListTile(
       leading: Icon(
-        Icons.filter_4,
+        Icons.filter_5,
         size: 36.0,
         color: Colors.blue,
       ),
@@ -555,7 +603,7 @@ class _CloneUserState extends State<CloneUser> {
   Widget menuCleanOnu() {
     return ListTile(
       leading: Icon(
-        Icons.filter_5,
+        Icons.filter_6,
         size: 36.0,
         color: Colors.cyan,
       ),
@@ -577,12 +625,12 @@ class _CloneUserState extends State<CloneUser> {
   Widget menuReuseOnu() {
     return ListTile(
       leading: Icon(
-        Icons.filter_6,
+        Icons.filter_7,
         size: 36.0,
         color: Colors.deepPurple,
       ),
       title: Text(
-        'นำ ONU ที่ผ่านขั้นตอนที่5 มาใช้ใหม่',
+        'นำ ONU ที่ผ่านขั้นตอนที่6 มาใช้ใหม่',
         style: TextStyle(fontSize: 18.0),
       ),
       // on tap == on click
@@ -599,7 +647,8 @@ class _CloneUserState extends State<CloneUser> {
   Widget menuLogout() {
     return ListTile(
       leading: Icon(
-        Icons.filter_7,
+        // Icons.filter_8,
+        Icons.highlight_off,
         size: 36.0,
         color: Colors.deepOrangeAccent,
       ),
@@ -612,6 +661,31 @@ class _CloneUserState extends State<CloneUser> {
         // widget.onSignOutPressed();
         clearSharePreferance(context);
         // Navigator.of(context).pop();
+      },
+    ); // https://material.io/resources/icons/?style=baseline
+  }
+
+  //find_in_page
+
+  Widget menuFindone() {
+    return ListTile(
+      leading: Icon(
+        Icons.find_in_page,
+        size: 36.0,
+        color: Colors.indigoAccent,
+      ),
+      title: Text(
+        'ดู สถานะล่าสุด อุปกรณ์',
+        style: TextStyle(fontSize: 18.0),
+      ),
+      // on tap == on click
+      onTap: () {
+        Navigator.of(context).pop();
+        setState(() { //condition: 'Serial', datafind: '4381J2393'
+          // myWidget = OnuModel();
+          myWidget = FindOne();
+          // Navigator.of(context).pop();
+        });
       },
     ); // https://material.io/resources/icons/?style=baseline
   }
@@ -631,13 +705,17 @@ class _CloneUserState extends State<CloneUser> {
 
   Widget myDrawer() {
     if ((privilege > 0) && (temps != 'xxx')){
-      if (privilege == 1){
+      if (privilege == 6){  //Company(6, 'ผู้รับเหมา/ช่าง tot'),
         return Drawer(
       child: ListView(
         children: <Widget>[
                 myDrawerHeader(),
                 menuInstallOnu(),
                 Divider(),
+                menuReuseOnu(),
+                Divider(),
+                menuFindone(),
+                Divider(),
                 menuLogout(),
                 Divider(),
                 // showBack(),
@@ -646,12 +724,16 @@ class _CloneUserState extends State<CloneUser> {
         
     );
 
-      } else if(privilege == 2){ // privilege == 2 Out Onu Reused
+      } else if(privilege == 8){ //Company(8, 'ศูนย์สนับสนุน การปฏิบัติการ'),
         return Drawer(
       child: ListView(
         children: <Widget>[
                 myDrawerHeader(),
-                menuReuseOnu(),
+                menuPickupOnu(),
+                Divider(),
+                menuFindone(),
+                Divider(),
+                formonlyweb(),
                 Divider(),
                 menuLogout(),
                 Divider(),
@@ -661,7 +743,7 @@ class _CloneUserState extends State<CloneUser> {
         
     );
 
-     } else if(privilege == 3){ // privilege == 3 Cs เก็บคืน ทำความสะอาด
+     } else if(privilege == 9){ //Company(3, 'เก็บคืน/ตรวจสอบ'),
         return Drawer(
       child: ListView(
         children: <Widget>[
@@ -670,24 +752,7 @@ class _CloneUserState extends State<CloneUser> {
                 Divider(),
                 menuCleanOnu(),
                 Divider(),
-                menuLogout(),
-                Divider(),
-                // showBack(),
-              ],
-            )
-        
-    );
-
-    } else if(privilege == 4){ // privilege == 4 นำเข้า โอนย้าย จ่าย
-        return Drawer(
-      child: ListView(
-        children: <Widget>[
-                myDrawerHeader(),
-                menuFormPage(), // 'นำเข้า ONU',
-                Divider(),
-                menuListViewPage(),  // 'จ่าย ONU',
-                Divider(),
-                csZerodot5(), // โอนย้าย onu
+                menuFindone(),
                 Divider(),
                 menuLogout(),
                 Divider(),
@@ -697,15 +762,38 @@ class _CloneUserState extends State<CloneUser> {
         
     );
 
-    } else {
+    } else if(privilege == 10){ //Company(4, 'เก็บคืน/ตรวจสอบ/ ใช้ใหม่'),
+        return Drawer(
+        child: ListView(
+        children: <Widget>[
+                myDrawerHeader(),
+                menuPickupOnu(),
+                Divider(),
+                menuCleanOnu(),
+                Divider(),
+                // csZerodot5(), // โอนย้าย onu
+                // Divider(),
+                menuReuseOnu(),
+                Divider(),
+                menuFindone(),
+                Divider(),
+                menuLogout(),
+                Divider(),
+                // showBack(),
+              ],
+            )
+        
+    );
+
+    } else if(privilege == 11){
         return Drawer(
       child: ListView(
         children: <Widget>[
                 myDrawerHeader(),
-                menuFormPage(), // 'นำเข้า ONU',
-                Divider(),
-                menuListViewPage(),  // 'จ่าย ONU',
-                Divider(),
+                // menuFormPage(), // 'นำเข้า ONU',
+                // Divider(),
+                // menuListViewPage(),  // 'จ่าย ONU',
+                // Divider(),
                 csZerodot5(), // โอนย้าย onu
                 Divider(),
                 menuInstallOnu(),
@@ -714,7 +802,46 @@ class _CloneUserState extends State<CloneUser> {
                 Divider(),
                 menuCleanOnu(),
                 Divider(),
+                // csZerodot5(), // โอนย้าย onu
+                // Divider(),
                 menuReuseOnu(),
+                Divider(),
+                menuFindone(),
+                Divider(),
+                formonlyweb(),
+                Divider(),
+                menuLogout(),
+                Divider(),
+                // showBack(),
+              ],
+            )    
+          );
+      } else {
+        return Drawer(
+      child: ListView(
+        children: <Widget>[
+                myDrawerHeader(),
+                // menuFormPage(), // 'นำเข้า ONU',
+                // Divider(),
+                // menuListViewPage(),  // 'จ่าย ONU',
+                // Divider(),
+                csZerodot5(), // โอนย้าย onu
+                Divider(),
+                menuInstallOnu(),
+                Divider(),
+                menuPickupOnu(),
+                Divider(),
+                menuCleanOnu(),
+                Divider(),
+                // csZerodot5(), // โอนย้าย onu
+                // Divider(),
+                menuReuseOnu(),
+                Divider(),
+                menuFindone(),
+                Divider(),
+                formonlyweb(),
+                Divider(),
+                delCPEcus(),
                 Divider(),
                 menuLogout(),
                 Divider(),

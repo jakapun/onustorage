@@ -7,9 +7,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
+import 'package:onu_storage/src/screen/lastsubmit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:onu_storage/src/screen/my_success.dart';
 import 'dart:convert';
 
 class CleanOnu extends StatefulWidget {
@@ -484,10 +484,11 @@ class _CleanOnuState extends State<CleanOnu> {
           
           // String getmessage = ' บันทึกข้อมูล เก็บคืน/ขอใช้ต่อ OK';
           String getmessage = result['message2'];
-          
-          var addChildrenRoute = MaterialPageRoute(
-              builder: (BuildContext context) => Mysuccess(successtxt: getmessage));
+
+          var addChildrenRoute = MaterialPageRoute( //condition: radiovalue, datafind: name.toUpperCase()
+          builder: (BuildContext context) => LastSubM (successtxt: getmessage));
           Navigator.of(context).push(addChildrenRoute);
+          
 
         } else {
           String getmessage = result['message2'];
