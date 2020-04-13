@@ -300,7 +300,7 @@ class _RegisterState extends State<Register> {
     return showDialog(
         context: context,
         builder: (context) => CupertinoAlertDialog(
-              title: Text('ต้องการ Regis $nameStringf \r\n username = $emailString \r\n password = $passwordString ?'),
+              title: Text('ต้องการ Regis $nameStringf \r\n username = $emailString \r\n password = $passwordString '),
               actions: <Widget>[
                 FlatButton(
                   child: Text('No',
