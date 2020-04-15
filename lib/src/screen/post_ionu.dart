@@ -14,11 +14,11 @@ import 'package:grouped_buttons/grouped_buttons.dart';
 
 class Postinstall extends StatefulWidget {
 
-  final String lastqrtxt, sdtype, sdname, sdmodel;
+  final String lastqrtxt, sdtype, sdname, sdmodel, smac;
 
   Postinstall({
     Key key,
-    @required this.lastqrtxt, this.sdtype, this.sdname, this.sdmodel,
+    @required this.lastqrtxt, this.sdtype, this.sdname, this.sdmodel, this.smac
   }) : super(key: key);
 
   @override
@@ -62,8 +62,8 @@ class _PostinstallState extends State<Postinstall> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   String name, detail, code, urlPicture, contactnum, textscan, qrCodeString = '', model1 ='', firsta = '';
-  String tempprv, temprela, tempcs, token = '', tempuid = '', radiovalue = '';
-  String  getlastqr = '', getdtype = '', getdname = '', getdmodel = '';
+  String tempprv, temprela, tempcs, token = '', tempuid = '', radiovalue = '', tempmac = '';
+  String  getlastqr = '', getdtype = '', getdname = '', getdmodel = '', getmac = '';
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
   Company _selectedCompany;
@@ -81,6 +81,7 @@ class _PostinstallState extends State<Postinstall> {
       getdtype = widget.sdtype;
       getdname = widget.sdname;
       getdmodel = widget.sdmodel;
+      getmac = widget.smac;
     });
     findLatLng();
     createCode();
@@ -184,14 +185,14 @@ class _PostinstallState extends State<Postinstall> {
           print('_isButtonDisabled = false');
         }
         if ((result['status']) && (result['success'])) {
-          String getmessage = result['message'];
+          String getmessage = result['message2'];
       
           var addChildrenRoute = MaterialPageRoute( //condition: radiovalue, datafind: name.toUpperCase()
           builder: (BuildContext context) => LastSubM(successtxt: getmessage));
           Navigator.of(context).push(addChildrenRoute);
 
         } else {
-          String getmessage = result['message'];
+          String getmessage = result['message2'];
           myAlert('Not OK', '$getmessage');
         }
       }
@@ -354,7 +355,9 @@ class _PostinstallState extends State<Postinstall> {
         ),
         onSaved: (String value) {
           // textscan = value.trim();
-          qrCodeString = value.trim();
+          tempmac = value.replaceAll('-', '');
+          tempmac = tempmac.replaceAll(':', '');
+          qrCodeString = tempmac.trim();
           print(qrCodeString);
         },
       ),
@@ -549,11 +552,20 @@ class _PostinstallState extends State<Postinstall> {
               if ((qrCodeString.isEmpty) || (getlastqr.isEmpty) || ( qrCodeString == getlastqr )) {
                 myAlert('Barcode Problem', 'Macaddress/Gpon data not complete!');
               } else {
-                // check name,detail
+                
+              getmac = getmac.replaceAll('-', '');
+              getmac = getmac.replaceAll(':', '');
+
+                if (getmac == qrCodeString) {
+                  // check name,detail
                 urlPicture = code;
                 // print('radio = $radiovalue, model = $model1, circuitid = $name, namef = $detail, contactnumber = $contactnum, onuid = $qrCodeString, dropdownstatic = ${_selectedCompany.name} , lat = $lat, lng = $lng, urlPicture = $urlPicture');
                 print('circuidid = $name, mac = $qrCodeString, typei = $radiovalue, lat = $lat, lng = $lng, qrtxt = $getlastqr, prv = $tempprv, nvision = $temprela');
                 sendnewonu();
+                }else{
+                  myAlert('MAC มีปัญหา', 'Macaddress ที่สแกนกับในระบบ \r\n $getmac != $qrCodeString \r\n มีปัญหา ติดต่อ admin');
+                }
+                
               }
             // } else {
             //   myAlert(

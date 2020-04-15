@@ -209,10 +209,11 @@ class _PrepickState extends State<Prepick> {
           // result['dtype']
           // result['dname']
           // result['dmodel']
+          // result['mac']
 
            
           var addChildrenRoute = MaterialPageRoute(
-          builder: (BuildContext context) => Postinstall(lastqrtxt: qrCodeString, sdtype: result['dtype'], sdname: result['dname'], sdmodel: result['dmodel'] ));
+          builder: (BuildContext context) => Postinstall(lastqrtxt: qrCodeString, sdtype: result['dtype'], sdname: result['dname'], sdmodel: result['dmodel'], smac: result['mac']));
           Navigator.of(context).push(addChildrenRoute);
 
         } else {

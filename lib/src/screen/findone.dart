@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:onu_storage/src/screen/find_detonunew.dart';
 import 'package:onu_storage/src/screen/findone_two.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,8 +53,8 @@ class _FindOneState extends State<FindOne> {
       width: 220.0,
       child: RadioButtonGroup(
           labels: [
-            // "Serial",
-            "เลขวงจร",
+            "ONU(NEW)",
+            "ONU เก่าเก็บใช้ใหม่",
           ],
           disabled: [
             // "In Area"
@@ -107,11 +108,19 @@ class _FindOneState extends State<FindOne> {
                 myAlert('Have Space', 'Please Fill Data');
               } else {
                 // check name,detail
-                radiovalue = 'Serial/CircuitID';
+                if (radiovalue == 'ONU(NEW)'){
+                 // { "_id" : ObjectId("5e9047f0669fb407db3ee821"), "DeviceListID" : "list20200409034746211", "letterID" : "doc20200409034614010", "DeviceTypeName" : "ONU", "DeviceBrandName" : "ZTE", "DeviceModelName" : "ZXHN-F670L-OFTK", "Serial" : "ZTEGC8C7BBDB", "mac" : "C85A9FA1F5CA", "Status" : "ติดตั้งเรียบร้อย", "Province" : "SSK", "CounterService" : "ศูนย์บริการ ขุขันธ์", "Circuit" : "4567J7110", "CreatedDate" : ISODate("2020-04-08T17:22:04.221Z"), "CreatedBy" : "ชุติ​กาญจน์​ เสนา​ภ​ั​ก​ดิ์", "__v" : 0 }
                 print('radio = $radiovalue, circuitid = $name');
+                var addChildrenRoute = MaterialPageRoute( //condition: radiovalue, datafind: name.toUpperCase()
+                builder: (BuildContext context) => FindDetNOnu(datafind: name.toUpperCase()));
+                Navigator.of(context).push(addChildrenRoute);
+                
+                }else{
+                  print('radio = $radiovalue, circuitid = $name');
                 var addChildrenRoute = MaterialPageRoute( //condition: radiovalue, datafind: name.toUpperCase()
                 builder: (BuildContext context) => OnuModel(condition: radiovalue, datafind: name.toUpperCase()));
                 Navigator.of(context).push(addChildrenRoute);
+                }
                 // chkonefindcon();
               }
           },
@@ -154,7 +163,7 @@ class _FindOneState extends State<FindOne> {
           SizedBox(
             height: 10.0,
           ),         
-          // radiocheck1(),
+          radiocheck1(),
           SizedBox(
             height: 10.0,
           ),

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -94,11 +95,22 @@ class _AddSoonState extends State<AddSoon> {
   // Method
   Widget nameText1() {
     return TextFormField(
+      autofocus: true,
+        initialValue: '',
+        style: new TextStyle(
+                color: Colors.red,
+                fontSize: 20.0,
+              ),
       decoration: InputDecoration(
         labelText: 'LocationName :',
         labelStyle: TextStyle(color: Colors.pink[400]),
         helperText: 'ชื่อเต็ม ศูนย์',
         helperStyle: TextStyle(color: Colors.pink[400]),
+        hintText: 'ชื่อศูนย์เว้นตามด้วยจังหวัด',
+        hintStyle: TextStyle(color: Colors.blue[600]),
+        // labelText: 'รหัสพนักงาน/ชื่อ :',
+        //   helperText: 'รหัสพนักงาน/ชื่อ',
+        //   hintText: 'พิมพ์ รหัสพนักงาน/ชื่อ',
         icon: Icon(
           Icons.face,
           size: 36.0,
@@ -199,7 +211,8 @@ class _AddSoonState extends State<AddSoon> {
           formKey.currentState.save();
           print(
               'Name1 = $nameString1, Name2 = $codeone, dropdown = $_mySelection, Drop = ${_selectedCompany.name}, abbr =$tempprv');
-          register();
+          _onShowCondition();
+          // register();
         }
       },
     );
@@ -262,11 +275,33 @@ class _AddSoonState extends State<AddSoon> {
     
   }
 
+  Future<bool> _onShowCondition() {
+    return showDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+              title: Text('ต้องการเพิ่มศูนย์ชื่อ  $nameString1 \r\n ฝ่าย = ${_selectedCompany.name} \r\n จังหวัด = $_mySelection '),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('No',
+                      style: TextStyle(fontSize: 17.0, color: Colors.red[800])),
+                  onPressed: () => Navigator.pop(context, false),
+                ),
+                FlatButton(
+                    child: Text('Yes',
+                        style: TextStyle(fontSize: 17.0, color: Colors.blue)),
+                    onPressed: () {
+                    register();
+                    Navigator.pop(context, true);
+                    })
+              ],
+            ));
+  }
+
   Widget showText2() {
     return Text(
       'เลือก ฝ่ายที่สังกัด',
       style: TextStyle(
-          fontSize: 18.0,
+          fontSize: 20.0,
           fontWeight: FontWeight.bold,
           color: Colors.green[800],
           fontFamily: 'PermanentMarker'),
