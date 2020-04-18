@@ -100,7 +100,7 @@ class _FindDetNOnuState extends State<FindDetNOnu> {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
-        nonusModels[index].counterService,
+        (nonusModels[index].counterService == null) ? 'no CounterService' : nonusModels[index].counterService,
         style: TextStyle(fontSize: 20.0),
       ),
     );
@@ -109,8 +109,9 @@ class _FindDetNOnuState extends State<FindDetNOnu> {
   Widget showCircuit(int index) {
     return Container(
       alignment: Alignment.topLeft,
+      //((lat.toString().isEmpty) || (_isButtonDisabled == false)) ? showTextnull() : uploadValueButton(),
       child: Text(
-        nonusModels[index].circuit,
+        (nonusModels[index].circuit == null) ? 'no Circuit ID' : nonusModels[index].circuit,
         style: TextStyle(fontSize: 20.0),
       ),
     );
@@ -177,6 +178,7 @@ class _FindDetNOnuState extends State<FindDetNOnu> {
       // height: MediaQuery.of(context).size.width * 0.5,
       child: Column(
         children: <Widget>[
+          //((lat.toString().isEmpty) || (_isButtonDisabled == false)) ? showTextnull() : uploadValueButton(),
           showCounterService(index),
         ],
       ),

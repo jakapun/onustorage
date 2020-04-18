@@ -556,14 +556,14 @@ class _PostinstallState extends State<Postinstall> {
               getmac = getmac.replaceAll('-', '');
               getmac = getmac.replaceAll(':', '');
 
-                if (getmac == qrCodeString) {
+                if ((getmac == qrCodeString) && (name.length > 5)) {
                   // check name,detail
                 urlPicture = code;
                 // print('radio = $radiovalue, model = $model1, circuitid = $name, namef = $detail, contactnumber = $contactnum, onuid = $qrCodeString, dropdownstatic = ${_selectedCompany.name} , lat = $lat, lng = $lng, urlPicture = $urlPicture');
                 print('circuidid = $name, mac = $qrCodeString, typei = $radiovalue, lat = $lat, lng = $lng, qrtxt = $getlastqr, prv = $tempprv, nvision = $temprela');
                 sendnewonu();
                 }else{
-                  myAlert('MAC มีปัญหา', 'Macaddress ที่สแกนกับในระบบ \r\n $getmac != $qrCodeString \r\n มีปัญหา ติดต่อ admin');
+                  myAlert('MAC/ชื่อวงจร มีปัญหา', 'Macaddress ที่สแกนกับในระบบ \r\n $getmac != $qrCodeString \r\n มีปัญหา ติดต่อ admin');
                 }
                 
               }

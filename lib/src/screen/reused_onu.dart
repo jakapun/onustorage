@@ -496,7 +496,7 @@ class _ReusedOnuState extends State<ReusedOnu> {
           onPressed: () {
             if (imageBool) {
               formKey.currentState.save();
-              if ((name.isEmpty) || (detail.isEmpty)) {
+              if ((name.length < 4) || (detail.length < 4)) { //&& (name.length > 5)
                 myAlert('Have Space', 'Please Fill Every Data');
               } else {
                 // check name,detail

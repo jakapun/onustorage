@@ -578,7 +578,7 @@ class _PickupOnuState extends State<PickupOnu> {
             if (imageBool) {
               formKey.currentState.save();
               // if ((name.isEmpty) || (qrCodeString.isEmpty) || (detail.isNotEmpty)) {
-              if (qrCodeString.isEmpty) {
+              if ((qrCodeString.isEmpty) && (name.length > 5)) {
                 myAlert('Have Space', 'Please Fill Data');
               } else {
                 // check name,detail
