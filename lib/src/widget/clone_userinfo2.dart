@@ -1,12 +1,10 @@
-// import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:onu_storage/src/app.dart';
-import 'package:onu_storage/src/default_home.dart';
+import 'package:onu_storage/src/default_home2.dart';
 import 'package:onu_storage/src/screen/clean_onu.dart';
 import 'package:onu_storage/src/screen/delwSerial.dart';
 import 'package:onu_storage/src/screen/findone.dart';
@@ -15,31 +13,31 @@ import 'package:onu_storage/src/screen/only_web.dart';
 import 'package:onu_storage/src/screen/pickup_onu.dart';
 import 'package:onu_storage/src/screen/pre_getonu.dart';
 import 'package:onu_storage/src/screen/pre_pickup.dart';
-import 'package:onu_storage/src/screen/register.dart';
 import 'package:onu_storage/src/screen/reused_onu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:imei_plugin/imei_plugin.dart';
 
-class CloneUser extends StatefulWidget {
-  const CloneUser(
-      {Key key, this.userProfile, this.accessToken, this.onSignOutPressed})
-      : super(key: key);
+class Cloneuser2 extends StatefulWidget {
 
-  final UserProfile userProfile;
-  final StoredAccessToken accessToken;
-  final Function onSignOutPressed;
+  final String username, password;
+
+  Cloneuser2({
+    Key key,
+    @required this.username, this.password,
+  }) : super(key: key);
 
   @override
-  _CloneUserState createState() => _CloneUserState();
+  _Cloneuser2State createState() => _Cloneuser2State();
 }
 
-class _CloneUserState extends State<CloneUser> {
+class _Cloneuser2State extends State<Cloneuser2> {
+
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var uid = '';
   var picurl = '';
-  String nameString = '', getlineid = '';
-  Widget myWidget = DefaultHome();
+  String nameString = '', nameShow = '';
+  Widget myWidget = DefaultHome2();
   int privilege = 0;
   String _platformImei = '', temps = '';
   SharedPreferences prefs;
@@ -53,9 +51,10 @@ class _CloneUserState extends State<CloneUser> {
   @override
   void initState() {
     super.initState();
-    nameString = widget.userProfile.displayName;
-    picurl = widget.userProfile.pictureUrl;
-    getlineid = widget.userProfile.userId;
+    // nameString = widget.userProfile.displayName;
+    // picurl = widget.userProfile.pictureUrl;
+    // getlineid = widget.userProfile.userId;
+    nameShow = widget.username;
     initPlatformState();
     //checkAuthen();
   }
@@ -84,7 +83,7 @@ class _CloneUserState extends State<CloneUser> {
     return showDialog(
         context: context,
         builder: (context) => CupertinoAlertDialog(
-              title: Text('$nameString \r\n ต้องการ ออกจากระบบ หริอไม่?',
+              title: Text('$nameShow \r\n ต้องการ ออกจากระบบ หริอไม่?',
                   style: TextStyle(fontSize: 17.0, color: Colors.blue[700])),
               actions: <Widget>[
                 FlatButton(
@@ -119,9 +118,9 @@ class _CloneUserState extends State<CloneUser> {
   }
 
   Future<void> checkAuthen() async {
-    if ((_platformImei.length <= 5) || ( getlineid.length <= 5)) {
-      print('user = $getlineid, password = $_platformImei');
-      myShowSnackBar('$getlineid $_platformImei');
+    if (_platformImei.length <= 5) {
+      print('password = $_platformImei');
+      myShowSnackBar('$_platformImei');
     } else {
       
       /*
@@ -137,8 +136,8 @@ class _CloneUserState extends State<CloneUser> {
       String urlString = 'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/signin';
 
       var body = {
-        "username": getlineid,
-        "password": _platformImei.trim(),
+        "username": widget.username,
+        "password": widget.password.trim(),
         "deviceid": _platformImei.trim()
       };
 
@@ -168,28 +167,6 @@ class _CloneUserState extends State<CloneUser> {
               await prefs.setInt('spriv', result['priv']); //store preference Integer
               await prefs.setString('srelate', result['relate']);
               await prefs.setString('scouters', result['cs']);
-              await prefs.setString('slinepic', picurl);
-              // String sValue = prefs.getString('stoken');
-              // print(sValue);
-              // print(prefs.getInt('spriv').toString());
-              
-              // String urlString2 =
-              //     'http://8a7a08360daf.sn.mynetname.net:2528/api/flutterget/123456';
-              // var response2 = await get(urlString2,
-              //     headers: {HttpHeaders.authorizationHeader: "JWT $sValue"});
-              // if (response2.statusCode == 200) {
-              //   print(response2.statusCode);
-              //   var result2 = json.decode(response2.body);
-              //   if (result2['status']) {
-              //     String getmessage = result2['message'];
-              //     print(getmessage);
-              //     myAlert('OK', response2.statusCode.toString());
-              //   } else {
-              //     print('message = Null');
-              //   }
-              // } else {
-              //   myAlert('Error', response2.statusCode.toString());
-              // }
 
               setState(() {
                 privilege = prefs.getInt('spriv');
@@ -246,7 +223,7 @@ class _CloneUserState extends State<CloneUser> {
 
   Widget showText() {
     return Text(
-      'ตรวจสอบสิทธิ User ในรูป \r\n กดปุ่ม Check ถ้าไม่มี\r\n สิทธิ ให้ปัดขอบจอซ้าย \r\n เลือกลงทะเบียน',
+      'ตรวจสอบสิทธิ User ในรูป \r\n กดปุ่ม Check ถ้าไม่มี\r\n สิทธิ ให้ยืม Android เพื่อน\r\n เลือกเมนูลงทะเบียน',
       style: TextStyle(
           fontSize: 22.0,
           fontWeight: FontWeight.bold,
@@ -327,17 +304,7 @@ class _CloneUserState extends State<CloneUser> {
       // onPressed: widget.onSignOutPressed,
       onPressed: () {
         print('You Click SignOut');
-        //print(widget.userProfile.displayName.toString());
-        // widget.onSignOutPressed();
-
-        // var backHomeRoute = MaterialPageRoute(
-        //     builder: (BuildContext context) =>
-        //         Register(lineid: widget.userProfile.userId));
-        // Navigator.of(context)
-        //     .pushAndRemoveUntil(backHomeRoute, (Route<dynamic> route) => false);
-        // var registerRoute =
-        //     MaterialPageRoute(builder: (BuildContext context) => Register(lineid: widget.userProfile.userId, deviceid: _platformImei));
-        // Navigator.of(context).push(registerRoute);
+        
       },
     );
   }
@@ -409,7 +376,7 @@ class _CloneUserState extends State<CloneUser> {
       child: Column(
         children: <Widget>[
           Text(
-            'Login: $nameString',
+            'Login: $nameShow',
             style: TextStyle(
               fontSize: 18.0,
               color: Colors.brown[800],
@@ -420,31 +387,25 @@ class _CloneUserState extends State<CloneUser> {
     );
   }
 
-  // widget.userProfile.displayName
-  Widget listShowUser() {
-    return ListTile(
-      leading: Icon(
-        Icons.group_add,
-        size: 36.0,
-        color: Colors.green[400],
-      ),
-      title: Text(
-        'ลงทะเบียน User',
-        style: TextStyle(fontSize: 18.0),
-      ),
-      // on tap == on click
-      onTap: () {
-        // Navigator.of(context).pop();
-        var registerRoute =
-            MaterialPageRoute(builder: (BuildContext context) => Register(lineid: widget.userProfile.userId, deviceid: _platformImei));
-        Navigator.of(context).push(registerRoute);
-        setState(() {
-          // myWidget = Register();
-          // Navigator.of(context).pop();
-        });
-      },
-    ); // https://material.io/resources/icons/?style=baseline
-  }
+  // Widget listShowUser() {
+  //   return ListTile(
+  //     leading: Icon(
+  //       Icons.group_add,
+  //       size: 36.0,
+  //       color: Colors.green[400],
+  //     ),
+  //     title: Text(
+  //       'ลงทะเบียน User',
+  //       style: TextStyle(fontSize: 18.0),
+  //     ),
+  //     // on tap == on click
+  //     onTap: () {
+  //       var registerRoute =
+  //           MaterialPageRoute(builder: (BuildContext context) => Register(lineid: widget.userProfile.userId, deviceid: _platformImei));
+  //       Navigator.of(context).push(registerRoute);
+  //     },
+  //   ); // https://material.io/resources/icons/?style=baseline
+  // }
 
   Widget menuFormPage() {
     return ListTile(
@@ -693,7 +654,7 @@ class _CloneUserState extends State<CloneUser> {
 
   // clearSharePreferance(context);
   void clearSharePreferance(BuildContext context) async {
-    widget.onSignOutPressed();
+    // widget.onSignOutPressed();
     prefs = await SharedPreferences.getInstance();
     setState(() {
       prefs.clear();
@@ -867,7 +828,7 @@ class _CloneUserState extends State<CloneUser> {
       child: ListView(
         children: <Widget>[
           myDrawerHeader(),
-          listShowUser(),
+          // listShowUser(),
           Divider(),
         ],
       ),
@@ -900,9 +861,9 @@ class _CloneUserState extends State<CloneUser> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
-    
     return WillPopScope(
         onWillPop: _onBackPressed,
         child: privilege == 0

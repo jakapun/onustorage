@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
+import 'package:onu_storage/src/screen/login.dart';
 import 'package:onu_storage/src/widget/clone_userinfo.dart';
 
 import '../theme.dart';
@@ -76,7 +77,23 @@ class _HomePageState extends State<HomePage>
                 onPressed: _signIn,
                 child: Text('ล็อกอิน ด้วย ยูสเซอร์ Line'),
               ),
-            )),
+              
+            )
+            ),
+            Expanded(
+              child: Center(
+                child: RaisedButton(
+                textColor: textColor,
+                color: Colors.blueAccent,
+                onPressed: () {
+            MaterialPageRoute materialPageRoute =
+            MaterialPageRoute(builder: (BuildContext context) => LoginPage());
+            Navigator.of(context).push(materialPageRoute);
+            },
+                child: Text('ล็อกอิน ด้วย User/Pass'),
+              ),
+              ),
+            ),
           ],
         ),
       );

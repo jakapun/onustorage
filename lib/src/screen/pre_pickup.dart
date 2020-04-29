@@ -41,7 +41,7 @@ class _PrepickState extends State<Prepick> {
 
   Widget showTextOne() {
     return Text(
-      'เช็ค Barcode Serial ONU',
+      'สแกน Barcode ที่เป็น Serial',
       style: TextStyle(
           fontSize: 30.0,
           fontWeight: FontWeight.bold,
@@ -212,13 +212,13 @@ class _PrepickState extends State<Prepick> {
           // result['mac']
 
            
-          var addChildrenRoute = MaterialPageRoute(
+          var addChildrenRoute = MaterialPageRoute(  // -->post_ionu.dart
           builder: (BuildContext context) => Postinstall(lastqrtxt: qrCodeString, sdtype: result['dtype'], sdname: result['dname'], sdmodel: result['dmodel'], smac: result['mac']));
           Navigator.of(context).push(addChildrenRoute);
 
         } else {
           String getmessage = result['message2'];
-          myAlert('Not OK', '$getmessage');
+          myAlert(result['message'], '$getmessage');
         }
       }
     } else {

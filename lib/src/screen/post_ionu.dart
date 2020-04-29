@@ -193,7 +193,7 @@ class _PostinstallState extends State<Postinstall> {
 
         } else {
           String getmessage = result['message2'];
-          myAlert('Not OK', '$getmessage');
+          myAlert(result['message'], '$getmessage');
         }
       }
     } else {
@@ -471,7 +471,7 @@ class _PostinstallState extends State<Postinstall> {
         borderRadius: BorderRadius.circular(30.0),
       ),
       icon: Icon(Icons.crop_free),
-      label: Text('สแกน MAC:'),
+      label: Text('สแกน Barcode ที่เป็น MAC:'),
       onPressed: () {
         scanThread();
         // print('lat = $lat, lng = $lng, qrtxt = $qrCodeString');
@@ -550,7 +550,7 @@ class _PostinstallState extends State<Postinstall> {
               formKey.currentState.save();
               // if ((name.isEmpty) || (qrCodeString.isEmpty) || (detail.isNotEmpty)) {
               if ((qrCodeString.isEmpty) || (getlastqr.isEmpty) || ( qrCodeString == getlastqr )) {
-                myAlert('Barcode Problem', 'Macaddress/Gpon data not complete!');
+                myAlert('barcode ไม่สมบูรณ์ 2 สาเหตุ', 'Serial หรือ Mac address มีไม่ครบ \r\n Serial ตรงกับ Mac address');
               } else {
                 
               getmac = getmac.replaceAll('-', '');
