@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:onu_storage/src/screen/find_detonunew.dart';
 import 'package:onu_storage/src/screen/findone_two.dart';
-
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 
@@ -19,7 +19,7 @@ class _FindOneState extends State<FindOne> {
 
   // explicit
   final formKey = GlobalKey<FormState>();
-  String name, radiovalue = '',token = '';
+  String name, radiovalue = '',token = '', qrCodeString ='';
   SharedPreferences prefs;
 
   //method 
@@ -34,6 +34,31 @@ class _FindOneState extends State<FindOne> {
   prefs = await SharedPreferences.getInstance();
   token = prefs.getString('stoken');
   print('$token');
+  }
+
+  Widget showScanButton() {
+    return RaisedButton.icon(
+      icon: Icon(Icons.android),
+      label: Text('กด Scan Serial'),
+      onPressed: () {
+        qrProcess();
+        // print('lat = $lat, lng = $lng, qrtxt = $qrCodeString');
+      },
+    );
+  }
+
+  Future<void> qrProcess() async {
+    try {
+      String codeString = await BarcodeScanner.scan();
+
+      if (codeString.length != 0) {
+        setState(() {
+          qrCodeString = codeString;
+        });
+        // myShowSnackBar('$codeString');
+        // print('lat = $lat, lng = $lng, qrtxt = $qrCodeString');
+      }
+    } catch (e) {}
   }
 
   Widget showhpage() {
@@ -104,8 +129,39 @@ class _FindOneState extends State<FindOne> {
           child: Icon(Icons.cloud_upload),
           onPressed: () {
             formKey.currentState.save();
-              if (name.isEmpty) {
-                myAlert('Have Space', 'Please Fill Data');
+              if ((name.isEmpty) && (qrCodeString.isEmpty)) {
+                myAlert('มีข้อผิดพลาด', 'ไม่มีการพิมพ์ หรือการ scan');
+              } else if ((name.isEmpty) && (qrCodeString.length > 6)) {
+                name = qrCodeString;
+                myAlert('App จะCopy', 'ข้อความที่ได้จากการสแกน \r\n มาเป็นเงื่อนไขในการค้น');
+                if (radiovalue == 'ONU(NEW)'){
+                 // { "_id" : ObjectId("5e9047f0669fb407db3ee821"), "DeviceListID" : "list20200409034746211", "letterID" : "doc20200409034614010", "DeviceTypeName" : "ONU", "DeviceBrandName" : "ZTE", "DeviceModelName" : "ZXHN-F670L-OFTK", "Serial" : "ZTEGC8C7BBDB", "mac" : "C85A9FA1F5CA", "Status" : "ติดตั้งเรียบร้อย", "Province" : "SSK", "CounterService" : "ศูนย์บริการ ขุขันธ์", "Circuit" : "4567J7110", "CreatedDate" : ISODate("2020-04-08T17:22:04.221Z"), "CreatedBy" : "ชุติ​กาญจน์​ เสนา​ภ​ั​ก​ดิ์", "__v" : 0 }
+                print('radio = $radiovalue, circuitid = $name');
+                var addChildrenRoute = MaterialPageRoute( //condition: radiovalue, datafind: name.toUpperCase()
+                builder: (BuildContext context) => FindDetNOnu(datafind: name.toUpperCase()));
+                Navigator.of(context).push(addChildrenRoute);
+                
+                }else{
+                  print('radio = $radiovalue, circuitid = $name');
+                var addChildrenRoute = MaterialPageRoute( //condition: radiovalue, datafind: name.toUpperCase()
+                builder: (BuildContext context) => OnuModel(condition: radiovalue, datafind: name.toUpperCase()));
+                Navigator.of(context).push(addChildrenRoute);
+                }
+              } else if((name.length > 6) && (qrCodeString.length > 6)){
+                myAlert('App จะเลือก', 'ข้อความที่ได้จากการพิมพ์ \r\n มาเป็นเงื่อนไขในการค้น');
+                if (radiovalue == 'ONU(NEW)'){
+                 // { "_id" : ObjectId("5e9047f0669fb407db3ee821"), "DeviceListID" : "list20200409034746211", "letterID" : "doc20200409034614010", "DeviceTypeName" : "ONU", "DeviceBrandName" : "ZTE", "DeviceModelName" : "ZXHN-F670L-OFTK", "Serial" : "ZTEGC8C7BBDB", "mac" : "C85A9FA1F5CA", "Status" : "ติดตั้งเรียบร้อย", "Province" : "SSK", "CounterService" : "ศูนย์บริการ ขุขันธ์", "Circuit" : "4567J7110", "CreatedDate" : ISODate("2020-04-08T17:22:04.221Z"), "CreatedBy" : "ชุติ​กาญจน์​ เสนา​ภ​ั​ก​ดิ์", "__v" : 0 }
+                print('radio = $radiovalue, circuitid = $name');
+                var addChildrenRoute = MaterialPageRoute( //condition: radiovalue, datafind: name.toUpperCase()
+                builder: (BuildContext context) => FindDetNOnu(datafind: name.toUpperCase()));
+                Navigator.of(context).push(addChildrenRoute);
+                
+                }else{
+                  print('radio = $radiovalue, circuitid = $name');
+                var addChildrenRoute = MaterialPageRoute( //condition: radiovalue, datafind: name.toUpperCase()
+                builder: (BuildContext context) => OnuModel(condition: radiovalue, datafind: name.toUpperCase()));
+                Navigator.of(context).push(addChildrenRoute);
+                }
               } else {
                 // check name,detail
                 if (radiovalue == 'ONU(NEW)'){

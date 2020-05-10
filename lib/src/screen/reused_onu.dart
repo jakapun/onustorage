@@ -562,7 +562,13 @@ class _ReusedOnuState extends State<ReusedOnu> {
           detailText(),
           contactText(),
           SizedBox(
-            height: 10.0,
+            height: 5.0,
+          ),
+          SelectableText('$lat,$lng',
+          style: TextStyle(fontSize: 18.0, backgroundColor: Colors.orange[200], color: Colors.black),
+          textAlign: TextAlign.center,),
+          SizedBox(
+            height: 5.0,
           ),
           (lat.toString().isNotEmpty) ? uploadValueButton() : showtxt(),
         ],
