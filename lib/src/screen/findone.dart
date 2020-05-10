@@ -224,9 +224,15 @@ class _FindOneState extends State<FindOne> {
             height: 10.0,
           ),
           nameText(),
-          
+          showScanButton(),
           SizedBox(
-            height: 10.0,
+            height: 5.0,
+          ),
+          SelectableText('$qrCodeString',
+          style: TextStyle(fontSize: 18.0),
+          textAlign: TextAlign.center,),
+          SizedBox(
+            height: 5.0,
           ),
           uploadValueButton(),
         ],
