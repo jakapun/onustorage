@@ -1,7 +1,7 @@
 // import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
@@ -18,7 +18,7 @@ import 'package:onu_storage/src/screen/pre_pickup.dart';
 import 'package:onu_storage/src/screen/register.dart';
 import 'package:onu_storage/src/screen/reused_onu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:imei_plugin/imei_plugin.dart';
+// import 'package:imei_plugin/imei_plugin.dart';
 
 class CloneUser extends StatefulWidget {
   const CloneUser(
@@ -56,29 +56,25 @@ class _CloneUserState extends State<CloneUser> {
     nameString = widget.userProfile.displayName;
     picurl = widget.userProfile.pictureUrl;
     getlineid = widget.userProfile.userId;
-    initPlatformState();
-    //checkAuthen();
+    // initPlatformState();
   }
 
-  Future<void> initPlatformState() async {
-    String platformImei;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformImei = await ImeiPlugin.getImei( shouldShowRequestPermissionRationale: false );
-    } on PlatformException {
-      platformImei = 'Failed to get platform version.';
-    }
+  // Future<void> initPlatformState() async {
+  //   String platformImei;
+    
+  //   try {
+  //     platformImei = await ImeiPlugin.getImei( shouldShowRequestPermissionRationale: false );
+  //   } on PlatformException {
+  //     platformImei = 'Failed to get platform version.';
+  //   }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
+  //   if (!mounted) return;
 
-    setState(() {
-      _platformImei = platformImei;
-      // widget.chkline
-    });
-  }
+  //   setState(() {
+  //     _platformImei = platformImei;
+  //     // widget.chkline
+  //   });
+  // }
 
   Future<bool> _onBackPressed() {
     return showDialog(
@@ -116,6 +112,10 @@ class _CloneUserState extends State<CloneUser> {
       ),
     );
     scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
+  Future<void> checkAuthen2() async {
+
   }
 
   Future<void> checkAuthen() async {
@@ -310,7 +310,7 @@ class _CloneUserState extends State<CloneUser> {
           style: TextStyle(color: Colors.green.shade900),
         ),
         onPressed: () {
-          checkAuthen();
+          checkAuthen2();
         });
   }
 
@@ -434,9 +434,9 @@ class _CloneUserState extends State<CloneUser> {
       ),
       // on tap == on click
       onTap: () {
-        // Navigator.of(context).pop();
+        // Navigator.of(context).pop();  // Register(lineid: widget.userProfile.userId, deviceid: _platformImei)
         var registerRoute =
-            MaterialPageRoute(builder: (BuildContext context) => Register(lineid: widget.userProfile.userId, deviceid: _platformImei));
+            MaterialPageRoute(builder: (BuildContext context) => Register());
         Navigator.of(context).push(registerRoute);
         setState(() {
           // myWidget = Register();

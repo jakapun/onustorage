@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:onu_storage/src/app.dart';
@@ -13,9 +13,10 @@ import 'package:onu_storage/src/screen/only_web.dart';
 import 'package:onu_storage/src/screen/pickup_onu.dart';
 import 'package:onu_storage/src/screen/pre_getonu.dart';
 import 'package:onu_storage/src/screen/pre_pickup.dart';
+import 'package:onu_storage/src/screen/register.dart';
 import 'package:onu_storage/src/screen/reused_onu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:imei_plugin/imei_plugin.dart';
+// import 'package:imei_plugin/imei_plugin.dart';
 
 class Cloneuser2 extends StatefulWidget {
 
@@ -55,29 +56,26 @@ class _Cloneuser2State extends State<Cloneuser2> {
     // picurl = widget.userProfile.pictureUrl;
     // getlineid = widget.userProfile.userId;
     nameShow = widget.username;
-    initPlatformState();
-    //checkAuthen();
+    // initPlatformState();
+    
   }
 
-  Future<void> initPlatformState() async {
-    String platformImei;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformImei = await ImeiPlugin.getImei( shouldShowRequestPermissionRationale: false );
-    } on PlatformException {
-      platformImei = 'Failed to get platform version.';
-    }
+  // Future<void> initPlatformState() async {
+  //   String platformImei;
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
+  //   try {
+  //     platformImei = await ImeiPlugin.getImei( shouldShowRequestPermissionRationale: false );
+  //   } on PlatformException {
+  //     platformImei = 'Failed to get platform version.';
+  //   }
 
-    setState(() {
-      _platformImei = platformImei;
-      // widget.chkline
-    });
-  }
+  //   if (!mounted) return;
+
+  //   setState(() {
+  //     _platformImei = platformImei;
+  //     // widget.chkline
+  //   });
+  // }
 
   Future<bool> _onBackPressed() {
     return showDialog(
@@ -387,25 +385,30 @@ class _Cloneuser2State extends State<Cloneuser2> {
     );
   }
 
-  // Widget listShowUser() {
-  //   return ListTile(
-  //     leading: Icon(
-  //       Icons.group_add,
-  //       size: 36.0,
-  //       color: Colors.green[400],
-  //     ),
-  //     title: Text(
-  //       'ลงทะเบียน User',
-  //       style: TextStyle(fontSize: 18.0),
-  //     ),
-  //     // on tap == on click
-  //     onTap: () {
-  //       var registerRoute =
-  //           MaterialPageRoute(builder: (BuildContext context) => Register(lineid: widget.userProfile.userId, deviceid: _platformImei));
-  //       Navigator.of(context).push(registerRoute);
-  //     },
-  //   ); // https://material.io/resources/icons/?style=baseline
-  // }
+Widget listShowUser() {
+    return ListTile(
+      leading: Icon(
+        Icons.group_add,
+        size: 36.0,
+        color: Colors.green[400],
+      ),
+      title: Text(
+        'ลงทะเบียน User',
+        style: TextStyle(fontSize: 18.0),
+      ),
+      // on tap == on click
+      onTap: () {
+        // Navigator.of(context).pop();
+        var registerRoute =
+            MaterialPageRoute(builder: (BuildContext context) => Register());
+        Navigator.of(context).push(registerRoute);
+        setState(() {
+          // myWidget = Register();
+          // Navigator.of(context).pop();
+        });
+      },
+    ); // https://material.io/resources/icons/?style=baseline
+  }
 
   Widget menuFormPage() {
     return ListTile(
@@ -828,7 +831,7 @@ class _Cloneuser2State extends State<Cloneuser2> {
       child: ListView(
         children: <Widget>[
           myDrawerHeader(),
-          // listShowUser(),
+          listShowUser(),
           Divider(),
         ],
       ),

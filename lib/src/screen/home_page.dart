@@ -16,9 +16,9 @@ class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
   UserProfile _userProfile;
   StoredAccessToken _accessToken;
-  bool _isOnlyWebLogin = false;
+  // bool _isOnlyWebLogin = false;
 
-  final Set<String> _selectedScopes = Set.from(["profile"]);
+  // final Set<String> _selectedScopes = Set.from(["profile"]);
 
   @override
   bool get wantKeepAlive => true;
@@ -74,8 +74,8 @@ class _HomePageState extends State<HomePage>
               child: RaisedButton(
                 textColor: textColor,
                 color: accentColor,
-                onPressed: _signIn,
-                child: Text('ล็อกอิน ด้วย ยูสเซอร์ Line'),
+                onPressed: _signIn2,
+                child: Text('ยกเลิก ล็อกอินด้วยLine'),
               ),
               
             )
@@ -167,23 +167,27 @@ class _HomePageState extends State<HomePage>
   //   return Row(children: widgetList);
   // }
 
-  void _signIn() async {
-    try {
-      /// requestCode is for Android platform only, use another unique value in your application.
-      final loginOption = LoginOption(_isOnlyWebLogin, "normal", requestCode: 8192);
-      final result = await LineSDK.instance.login(
-          scopes: _selectedScopes.toList(),
-          option: loginOption);
-      final accessToken = await LineSDK.instance.currentAccessToken;
+  void _signIn2() async {
 
-      setState(() {
-        _userProfile = result.userProfile;
-        _accessToken = accessToken;
-      });
-    } on PlatformException catch (e) {
-      _showDialog(context, e.toString());
-    }
   }
+
+  // void _signIn() async {
+  //   try {
+  //     /// requestCode is for Android platform only, use another unique value in your application.
+  //     final loginOption = LoginOption(_isOnlyWebLogin, "normal", requestCode: 8192);
+  //     final result = await LineSDK.instance.login(
+  //         scopes: _selectedScopes.toList(),
+  //         option: loginOption);
+  //     final accessToken = await LineSDK.instance.currentAccessToken;
+
+  //     setState(() {
+  //       _userProfile = result.userProfile;
+  //       _accessToken = accessToken;
+  //     });
+  //   } on PlatformException catch (e) {
+  //     _showDialog(context, e.toString());
+  //   }
+  // }
 
   void _signOut() async {
     try {
@@ -197,21 +201,21 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  void _showDialog(BuildContext context, String text) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text(text),
-            actions: <Widget>[
-            FlatButton(
-              child: Text('Close'),
-              onPressed: () { Navigator.of(context).pop(); },
-            ),
-          ],
-          );
-        });
-  }
+//   void _showDialog(BuildContext context, String text) {
+//     showDialog(
+//         context: context,
+//         builder: (BuildContext context) {
+//           return AlertDialog(
+//             content: Text(text),
+//             actions: <Widget>[
+//             FlatButton(
+//               child: Text('Close'),
+//               onPressed: () { Navigator.of(context).pop(); },
+//             ),
+//           ],
+//           );
+//         });
+//   }
 }
 
 // const List<String> _scopes = <String>[

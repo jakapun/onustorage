@@ -6,13 +6,11 @@ import 'dart:convert';
 import 'package:onu_storage/src/screen/api_page.dart';
 
 class Register extends StatefulWidget {
-  final String lineid, deviceid;
+  // final String lineid, deviceid;
 
-  Register({
-    Key key,
-    @required this.lineid,
-    this.deviceid,
-  }) : super(key: key);
+  // Register({
+  //   Key key,
+  //   @required this.lineid, this.deviceid, }) : super(key: key);
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -53,8 +51,8 @@ class _RegisterState extends State<Register> {
   @override
   void initState() {
     super.initState();
-    getlineid = widget.lineid;
-    getdeviceid = widget.deviceid;
+    // getlineid = widget.lineid;
+    // getdeviceid = widget.deviceid;
     this.getSWData();
   }
 
@@ -250,11 +248,11 @@ class _RegisterState extends State<Register> {
     String fullname = '$nameStringf $nameStringl';
     var body = {
       "fullname": fullname,
-      "username": getlineid,
-      "password": getdeviceid,
+      "username": emailString.trim(),
+      "password": emailString.trim(),
       "province": _mySelection.trim(),
       "fname": nameStringf.trim(),
-      "deviceid": getdeviceid,
+      "deviceid": emailString.trim(),
       "employeeid": emailString.trim(),
       "passwordweb": passwordString.trim()
     };
