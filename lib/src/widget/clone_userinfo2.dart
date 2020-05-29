@@ -116,10 +116,6 @@ class _Cloneuser2State extends State<Cloneuser2> {
   }
 
   Future<void> checkAuthen() async {
-    if (_platformImei.length <= 5) {
-      print('password = $_platformImei');
-      myShowSnackBar('$_platformImei');
-    } else {
       
       /*
     str1.toLowerCase(); // lorem
@@ -182,7 +178,6 @@ class _Cloneuser2State extends State<Cloneuser2> {
       } else {
         myAlert('Error->Backend error', response.statusCode.toString());
       }
-    } // End If check emailstring.length
   }
 
   void myAlert(String titleString, String messageString) {
