@@ -19,12 +19,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:imei_plugin/imei_plugin.dart';
 
 class Cloneuser2 extends StatefulWidget {
-
   final String username, password;
 
   Cloneuser2({
     Key key,
-    @required this.username, this.password,
+    @required this.username,
+    this.password,
   }) : super(key: key);
 
   @override
@@ -32,7 +32,6 @@ class Cloneuser2 extends StatefulWidget {
 }
 
 class _Cloneuser2State extends State<Cloneuser2> {
-
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var uid = '';
@@ -40,7 +39,7 @@ class _Cloneuser2State extends State<Cloneuser2> {
   String nameString = '', nameShow = '';
   Widget myWidget = DefaultHome2();
   int privilege = 0;
-  String _platformImei = '', temps = '';
+  String temps = '';
   SharedPreferences prefs;
 
   // File file;
@@ -57,7 +56,6 @@ class _Cloneuser2State extends State<Cloneuser2> {
     // getlineid = widget.userProfile.userId;
     nameShow = widget.username;
     // initPlatformState();
-    
   }
 
   // Future<void> initPlatformState() async {
@@ -86,12 +84,13 @@ class _Cloneuser2State extends State<Cloneuser2> {
               actions: <Widget>[
                 FlatButton(
                   child: Text('No',
-                  style: TextStyle(fontSize: 17.0, color: Colors.black)),
+                      style: TextStyle(fontSize: 17.0, color: Colors.black)),
                   onPressed: () => Navigator.pop(context, false),
                 ),
                 FlatButton(
                     child: Text('Yes',
-                    style: TextStyle(fontSize: 17.0, color: Colors.red[800])),
+                        style:
+                            TextStyle(fontSize: 17.0, color: Colors.red[800])),
                     onPressed: () {
                       clearSharePreferance(context);
                       // widget.onSignOutPressed();
@@ -116,8 +115,7 @@ class _Cloneuser2State extends State<Cloneuser2> {
   }
 
   Future<void> checkAuthen() async {
-      
-      /*
+    /*
     str1.toLowerCase(); // lorem
     str1.toUpperCase(); // LOREM
     "   $str2  ".trim(); // 'Lorem ipsum'
@@ -126,58 +124,63 @@ class _Cloneuser2State extends State<Cloneuser2> {
 
     101.109.115.27:2500/api/flutterget/User=123456
     */
-      // uid: user.fname, prv: user.province, priv: user.privilege
-      String urlString = 'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/signin';
+    // uid: user.fname, prv: user.province, priv: user.privilege
 
-      var body = {
-        "username": widget.username,
-        "password": widget.password.trim(),
-        "deviceid": _platformImei.trim()
-      };
+    String urlString =
+        'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/signin';
 
-      // var response = await get(urlString);
-      var response = await post(urlString, body: body);
-      
-      if (response.statusCode == 200) {
-        print(response.statusCode);
-        var result = json.decode(response.body);
-        // print('result = $result');
+    var body = {
+      "username": widget.username.trim(),
+      "password": widget.password.trim(),
+      "deviceid": widget.username.trim()
+    };
 
-        if (result.toString() == 'null') {
-          myAlert('User False', 'No Username in my Database');
-        } else {
-        
-            if (result['status']) {
-            String token = result['token'];
-            token = token.split(' ').last;
-            // print(token);
-            if (token.isNotEmpty) {
-              prefs = await SharedPreferences.getInstance();
-              await prefs.setString('stoken', token);
-              //  read value from store_preference
-              //  uid: user.fname, prv: user.province, priv: user.privilege
-              await prefs.setString('suid', result['uid']);
-              await prefs.setString('sprv', result['prv']);
-              await prefs.setInt('spriv', result['priv']); //store preference Integer
-              await prefs.setString('srelate', result['relate']);
-              await prefs.setString('scouters', result['cs']);
+    // var response = await get(urlString);
+    var response = await post(urlString, body: body);
+    print(response.statusCode);
+    print(widget.username.trim());
+    print(widget.password.trim());
 
-              setState(() {
-                privilege = prefs.getInt('spriv');
-                temps = prefs.getString('srelate');
-              });
-            } else {
-              myAlert('Respond Fail', 'Backend Not Reply,Session empty');
-            }
-
-          } else {
-            // print(result['error']);
-            myAlert('Error', response.statusCode.toString());
-          }
-        } // End else result.toString() != 'null'
+    if (response.statusCode == 200) {
+      print(response.statusCode);
+      var result = json.decode(response.body);
+      // print('result = $result');
+      print(result['status']);
+      if (result.toString() == 'null') {
+        myAlert('User False', 'No Username in my Database');
       } else {
-        myAlert('Error->Backend error', response.statusCode.toString());
-      }
+        if (result['status']) {
+          
+          String token = result['token'];
+          token = token.split(' ').last;
+          // print(token);
+          if (token.isNotEmpty) {
+            prefs = await SharedPreferences.getInstance();
+            await prefs.setString('stoken', token);
+            //  read value from store_preference
+            //  uid: user.fname, prv: user.province, priv: user.privilege
+            await prefs.setString('suid', result['uid']);
+            await prefs.setString('sprv', result['prv']);
+            await prefs.setInt(
+                'spriv', result['priv']); //store preference Integer
+            await prefs.setString('srelate', result['relate']);
+            await prefs.setString('scouters', result['cs']);
+
+            setState(() {
+              privilege = prefs.getInt('spriv');
+              temps = prefs.getString('srelate');
+            });
+          } else {
+            myAlert('Respond Fail', 'Backend Not Reply,Session empty');
+          }
+        } else {
+          // print(result['error']);
+          myAlert('Error', response.statusCode.toString());
+        }
+      } // End else result.toString() != 'null'
+    } else {
+      myAlert('Error->Backend error', response.statusCode.toString());
+    }
   }
 
   void myAlert(String titleString, String messageString) {
@@ -235,8 +238,6 @@ class _Cloneuser2State extends State<Cloneuser2> {
           fontFamily: 'PermanentMarker'),
     );
   }
-
-  
 
   Widget mySizeBox() {
     return SizedBox(
@@ -297,7 +298,6 @@ class _Cloneuser2State extends State<Cloneuser2> {
       // onPressed: widget.onSignOutPressed,
       onPressed: () {
         print('You Click SignOut');
-        
       },
     );
   }
@@ -310,12 +310,10 @@ class _Cloneuser2State extends State<Cloneuser2> {
       ),
       body: Center(
         child: (picurl.isNotEmpty)
-            ? Image.network(picurl,
-                width: 200, height: 200)
+            ? Image.network(picurl, width: 200, height: 200)
             : Icon(Icons.person),
         // child: Text('Login by $nameString'),
       ),
-    
     );
   }
 
@@ -323,7 +321,6 @@ class _Cloneuser2State extends State<Cloneuser2> {
     return Scaffold(
       key: scaffoldKey,
       resizeToAvoidBottomPadding: true,
-      
       body: Center(
         child: Container(
           decoration: BoxDecoration(
@@ -338,14 +335,13 @@ class _Cloneuser2State extends State<Cloneuser2> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                (picurl.isNotEmpty) ?
-          Image.network(
-            picurl,
-            fit: BoxFit.cover
-            // width: 200, 
-            // height: 200
-          ) : Icon(Icons.person),
-                (temps == 'xxx')  ? showTextndef() : showText(),
+                (picurl.isNotEmpty)
+                    ? Image.network(picurl, fit: BoxFit.cover
+                        // width: 200,
+                        // height: 200
+                        )
+                    : Icon(Icons.person),
+                (temps == 'xxx') ? showTextndef() : showText(),
                 mySizeBoxH(),
                 // (privilege < 1) ? mySizeBoxH() : myButton(),
                 myButton(),
@@ -380,7 +376,7 @@ class _Cloneuser2State extends State<Cloneuser2> {
     );
   }
 
-Widget listShowUser() {
+  Widget listShowUser() {
     return ListTile(
       leading: Icon(
         Icons.group_add,
@@ -641,7 +637,8 @@ Widget listShowUser() {
       // on tap == on click
       onTap: () {
         Navigator.of(context).pop();
-        setState(() { //condition: 'Serial', datafind: '4381J2393'
+        setState(() {
+          //condition: 'Serial', datafind: '4381J2393'
           // myWidget = OnuModel();
           myWidget = FindOne();
           // Navigator.of(context).pop();
@@ -664,173 +661,161 @@ Widget listShowUser() {
   }
 
   Widget myDrawer() {
-    if ((privilege > 0) && (temps != 'xxx')){
-      if (privilege == 6){  //Company(6, 'ผู้รับเหมา/ช่าง tot'),
+    if ((privilege > 0) && (temps != 'xxx')) {
+      if (privilege == 6) {
+        //Company(6, 'ผู้รับเหมา/ช่าง tot'),
         return Drawer(
-      child: ListView(
-        children: <Widget>[
-                myDrawerHeader(),
-                menuInstallOnu(),
-                Divider(),
-                menuReuseOnu(),
-                Divider(),
-                menuFindone(),
-                Divider(),
-                menuLogout(),
-                Divider(),
-                // showBack(),
-              ],
-            )
-        
-    );
-
-      } else if(privilege == 8){ //Company(8, 'ศูนย์สนับสนุน การปฏิบัติการ'),
+            child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            menuInstallOnu(),
+            Divider(),
+            menuReuseOnu(),
+            Divider(),
+            menuFindone(),
+            Divider(),
+            menuLogout(),
+            Divider(),
+            // showBack(),
+          ],
+        ));
+      } else if (privilege == 8) {
+        //Company(8, 'ศูนย์สนับสนุน การปฏิบัติการ'),
         return Drawer(
-      child: ListView(
-        children: <Widget>[
-                myDrawerHeader(),
-                menuPickupOnu(),
-                Divider(),
-                menuFindone(),
-                Divider(),
-                formonlyweb(),
-                Divider(),
-                menuLogout(),
-                Divider(),
-                // showBack(),
-              ],
-            )
-        
-    );
-
-     } else if(privilege == 9){ //Company(3, 'เก็บคืน/ตรวจสอบ'),
+            child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            menuPickupOnu(),
+            Divider(),
+            menuFindone(),
+            Divider(),
+            formonlyweb(),
+            Divider(),
+            menuLogout(),
+            Divider(),
+            // showBack(),
+          ],
+        ));
+      } else if (privilege == 9) {
+        //Company(3, 'เก็บคืน/ตรวจสอบ'),
         return Drawer(
-      child: ListView(
-        children: <Widget>[
-                myDrawerHeader(),
-                menuPickupOnu(),
-                Divider(),
-                menuCleanOnu(),
-                Divider(),
-                menuFindone(),
-                Divider(),
-                menuLogout(),
-                Divider(),
-                // showBack(),
-              ],
-            )
-        
-    );
-
-    } else if(privilege == 10){ //Company(4, 'เก็บคืน/ตรวจสอบ/ ใช้ใหม่'),
+            child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            menuPickupOnu(),
+            Divider(),
+            menuCleanOnu(),
+            Divider(),
+            menuFindone(),
+            Divider(),
+            menuLogout(),
+            Divider(),
+            // showBack(),
+          ],
+        ));
+      } else if (privilege == 10) {
+        //Company(4, 'เก็บคืน/ตรวจสอบ/ ใช้ใหม่'),
         return Drawer(
-        child: ListView(
-        children: <Widget>[
-                myDrawerHeader(),
-                menuPickupOnu(),
-                Divider(),
-                menuCleanOnu(),
-                Divider(),
-                // csZerodot5(), // โอนย้าย onu
-                // Divider(),
-                menuReuseOnu(),
-                Divider(),
-                menuFindone(),
-                Divider(),
-                menuLogout(),
-                Divider(),
-                // showBack(),
-              ],
-            )
-        
-    );
-
-    } else if(privilege == 11){
+            child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            menuPickupOnu(),
+            Divider(),
+            menuCleanOnu(),
+            Divider(),
+            // csZerodot5(), // โอนย้าย onu
+            // Divider(),
+            menuReuseOnu(),
+            Divider(),
+            menuFindone(),
+            Divider(),
+            menuLogout(),
+            Divider(),
+            // showBack(),
+          ],
+        ));
+      } else if (privilege == 11) {
         return Drawer(
-      child: ListView(
-        children: <Widget>[
-                myDrawerHeader(),
-                // menuFormPage(), // 'นำเข้า ONU',
-                // Divider(),
-                // menuListViewPage(),  // 'จ่าย ONU',
-                // Divider(),
-                csZerodot5(), // โอนย้าย onu
-                Divider(),
-                menuInstallOnu(),
-                Divider(),
-                menuPickupOnu(),
-                Divider(),
-                menuCleanOnu(),
-                Divider(),
-                // csZerodot5(), // โอนย้าย onu
-                // Divider(),
-                menuReuseOnu(),
-                Divider(),
-                menuFindone(),
-                Divider(),
-                formonlyweb(),
-                Divider(),
-                menuLogout(),
-                Divider(),
-                // showBack(),
-              ],
-            )    
-          );
+            child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            // menuFormPage(), // 'นำเข้า ONU',
+            // Divider(),
+            // menuListViewPage(),  // 'จ่าย ONU',
+            // Divider(),
+            csZerodot5(), // โอนย้าย onu
+            Divider(),
+            menuInstallOnu(),
+            Divider(),
+            menuPickupOnu(),
+            Divider(),
+            menuCleanOnu(),
+            Divider(),
+            // csZerodot5(), // โอนย้าย onu
+            // Divider(),
+            menuReuseOnu(),
+            Divider(),
+            menuFindone(),
+            Divider(),
+            formonlyweb(),
+            Divider(),
+            menuLogout(),
+            Divider(),
+            // showBack(),
+          ],
+        ));
       } else {
         return Drawer(
-      child: ListView(
-        children: <Widget>[
-                myDrawerHeader(),
-                // menuFormPage(), // 'นำเข้า ONU',
-                // Divider(),
-                // menuListViewPage(),  // 'จ่าย ONU',
-                // Divider(),
-                csZerodot5(), // โอนย้าย onu
-                Divider(),
-                menuInstallOnu(),
-                Divider(),
-                menuPickupOnu(),
-                Divider(),
-                menuCleanOnu(),
-                Divider(),
-                // csZerodot5(), // โอนย้าย onu
-                // Divider(),
-                menuReuseOnu(),
-                Divider(),
-                menuFindone(),
-                Divider(),
-                formonlyweb(),
-                Divider(),
-                delCPEcus(),
-                Divider(),
-                menuLogout(),
-                Divider(),
-                // showBack(),
-              ],
-            )    
-          );
+            child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            // menuFormPage(), // 'นำเข้า ONU',
+            // Divider(),
+            // menuListViewPage(),  // 'จ่าย ONU',
+            // Divider(),
+            csZerodot5(), // โอนย้าย onu
+            Divider(),
+            menuInstallOnu(),
+            Divider(),
+            menuPickupOnu(),
+            Divider(),
+            menuCleanOnu(),
+            Divider(),
+            // csZerodot5(), // โอนย้าย onu
+            // Divider(),
+            menuReuseOnu(),
+            Divider(),
+            menuFindone(),
+            Divider(),
+            formonlyweb(),
+            Divider(),
+            delCPEcus(),
+            Divider(),
+            menuLogout(),
+            Divider(),
+            // showBack(),
+          ],
+        ));
       }
-    } else if ((privilege > 0) && (temps == 'xxx')) { 
+    } else if ((privilege > 0) && (temps == 'xxx')) {
       return Drawer(
-      child: ListView(
-        children: <Widget>[
-          myDrawerHeader(),
-          Divider(),
-        ],
-       ),
+        child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            Divider(),
+          ],
+        ),
       );
-    
-    
     } else {
       return Drawer(
-      child: ListView(
-        children: <Widget>[
-          myDrawerHeader(),
-          listShowUser(),
-          Divider(),
-        ],
-      ),
-    );
+        child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            listShowUser(),
+            Divider(),
+          ],
+        ),
+      );
     }
   }
 
@@ -858,7 +843,6 @@ Widget listShowUser() {
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {

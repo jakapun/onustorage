@@ -25,6 +25,20 @@ class Postinstall extends StatefulWidget {
   _PostinstallState createState() => _PostinstallState();
 }
 
+// router.get('/getmodel_concat', function(req, res) {
+//   console.log('call get_model_cpe_concat');
+//   devicemd.aggregate([{ $match: {}},{ $project: { _id: 0, DeviceTypeName: 1, DeviceBrandName: 1, DeviceModelName: 1, allname: { $concat: [ "$DeviceTypeName", "_", "$DeviceBrandName", "_", "$DeviceModelName" ] },allname2: { $concat: [ "$DeviceTypeName", "_", "$DeviceBrandName", "_", "$DeviceModelName" ] } }},{$sort: {DeviceTypeName: -1, DeviceBrandName: -1}}], function(error, conucs) {
+//     if(error){
+//       return console.log(error);
+//     }else{
+//       console.log('length='+conucs.length);
+//       res.json(conucs);
+//     }
+//   });
+
+
+// });
+
 class Company {
   int id;
   String name;
@@ -63,11 +77,30 @@ class _PostinstallState extends State<Postinstall> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   String name, detail, code, urlPicture, contactnum, textscan, qrCodeString = '', model1 ='', firsta = '';
   String tempprv, temprela, tempcs, token = '', tempuid = '', radiovalue = '', tempmac = '';
-  String  getlastqr = '', getdtype = '', getdname = '', getdmodel = '', getmac = '';
+  String  getlastqr = '', getdtype = '', getdname = '', getdmodel = '', getmac = '', _mySelection = '';
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
   Company _selectedCompany;
   SharedPreferences prefs;
+
+  final String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getmodel_concat";
+
+
+  List data = List(); //edited line
+
+  Future<String> getSWData() async {
+    var res = await http
+        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+    var resBody = json.decode(res.body);
+
+    setState(() {
+      data = resBody;
+    });
+
+    print(resBody);
+
+    return "Sucess";
+  }
 
   // method
   @override
@@ -85,6 +118,7 @@ class _PostinstallState extends State<Postinstall> {
     });
     findLatLng();
     createCode();
+    this.getSWData();
   }
 
   List<DropdownMenuItem<Company>> buildDropdownMenuItems(List companies) {
@@ -364,6 +398,36 @@ class _PostinstallState extends State<Postinstall> {
     );
   }
 
+  Widget dropdownButton() {
+    return DropdownButton(
+      icon: Icon(Icons.arrow_downward),
+      hint: Text('เลือก ประเภท ยี่ห้อ รุ่น'),
+      iconSize: 36,
+      elevation: 26,
+      style: TextStyle(
+        color: Colors.deepPurple,
+        fontSize: 18.0,
+      ),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      items: data.map((item) {
+        return new DropdownMenuItem(
+          child: new Text(item['allname2']),
+          //value: item['EN'],
+          value: item['allname'],
+        );
+      }).toList(),
+      onChanged: (newVal) {
+        setState(() {
+          _mySelection = newVal;
+        });
+      },
+      value: _mySelection,
+    );
+  }
+
   Widget dropdownstatic() {
     return DropdownButton(
       
@@ -638,6 +702,7 @@ class _PostinstallState extends State<Postinstall> {
             height: 10.0,
           ),
           //dropdownstatic(),
+          dropdownButton(),
           SizedBox(
             height: 10.0,
           ),

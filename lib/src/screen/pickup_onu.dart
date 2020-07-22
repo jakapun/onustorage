@@ -78,11 +78,30 @@ class _PickupOnuState extends State<PickupOnu> {
 
   final formKey = GlobalKey<FormState>();
   String name, detail, code, urlPicture, contactnum, textscan, qrCodeString = '', model1 ='', firsta = '';
-  String tempprv, temprela, tempcs, token = '', tempuid = '', radiovalue = '';
+  String tempprv, temprela, tempcs, token = '', tempuid = '', radiovalue = '', _mySelection = '';
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
   Company _selectedCompany;
   SharedPreferences prefs;
+
+  final String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getmodel_concat";
+
+
+  List data = List(); //edited line
+
+  Future<String> getSWData() async {
+    var res = await http
+        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+    var resBody = json.decode(res.body);
+
+    setState(() {
+      data = resBody;
+    });
+
+    print(resBody);
+
+    return "Sucess";
+  }
 
   // method
   @override
@@ -93,6 +112,7 @@ class _PickupOnuState extends State<PickupOnu> {
     super.initState();
     findLatLng();
     createCode();
+    this.getSWData();
   }
 
   List<DropdownMenuItem<Company>> buildDropdownMenuItems(List companies) {
@@ -564,6 +584,36 @@ class _PickupOnuState extends State<PickupOnu> {
     );
   }
 
+  Widget dropdownButton() {
+    return DropdownButton(
+      icon: Icon(Icons.arrow_downward),
+      hint: Text('เลือก ประเภท ยี่ห้อ รุ่น'),
+      iconSize: 36,
+      elevation: 26,
+      style: TextStyle(
+        color: Colors.deepPurple,
+        fontSize: 18.0,
+      ),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      items: data.map((item) {
+        return new DropdownMenuItem(
+          child: new Text(item['allname2']),
+          //value: item['EN'],
+          value: item['allname'],
+        );
+      }).toList(),
+      onChanged: (newVal) {
+        setState(() {
+          _mySelection = newVal;
+        });
+      },
+      value: _mySelection,
+    );
+  }
+
   Widget uploadValueButton() {
     // return IconButton(
     //   icon: Icon(Icons.cloud_upload),
@@ -622,10 +672,14 @@ class _PickupOnuState extends State<PickupOnu> {
   Widget build(BuildContext context) {
     return Form(
       key: formKey,
-
+      child: Container(
+          alignment: Alignment.topCenter,
+          // padding: EdgeInsets.only(top: 60.0),
       child: ListView(
+        // alignment: Alignment.topCenter,
+        // padding: EdgeInsets.only(top: 60.0),      
         padding: EdgeInsets.only(
-          bottom: 50.0,
+          // bottom: 50.0,
           right: 10.0,
           left: 10.0,
         ),
@@ -642,7 +696,8 @@ class _PickupOnuState extends State<PickupOnu> {
           SizedBox(
             height: 10.0,
           ),
-          dropdownstatic(),
+          //dropdownstatic(),
+          dropdownButton(),
           SizedBox(
             height: 10.0,
           ),
@@ -660,7 +715,7 @@ class _PickupOnuState extends State<PickupOnu> {
           (lat.toString().isNotEmpty) ? uploadValueButton() : showtxt(),
         ],
       ),
-
+      ),
     );
   }
 }

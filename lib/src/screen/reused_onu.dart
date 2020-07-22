@@ -12,7 +12,6 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ReusedOnu extends StatefulWidget {
-
   ReusedOnu() : super();
 
   @override
@@ -30,7 +29,7 @@ class Company {
       Company(1, 'เลือกประเภท'),
       Company(2, 'พร้อมใช้งาน'),
       Company(3, 'เสียใช้งานไม่ได้'),
-      
+
       // พร้อมใช้งาน
       // เสียใช้งานไม่ได้
     ];
@@ -38,14 +37,21 @@ class Company {
 }
 
 class _ReusedOnuState extends State<ReusedOnu> {
-
   // explicit
   File file;
   double lat, lng;
   bool imageBool = false;
   bool _isButtonDisabled = true;
   final formKey = GlobalKey<FormState>();
-  String name, detail, code, urlPicture, contactnum, textscan, qrCodeString = '', firsta = '';
+  String name,
+      detail,
+      code,
+      urlPicture,
+      contactnum,
+      textscan,
+      qrCodeString = '',
+      firsta = '',
+      mtext = '';
   String tempprv, temprela, tempcs, token = '', tempuid = '';
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
@@ -88,7 +94,6 @@ class _ReusedOnuState extends State<ReusedOnu> {
   }
 
   Future<void> findLatLng() async {
-
     prefs = await SharedPreferences.getInstance();
 
     tempprv = prefs.getString('sprv');
@@ -130,18 +135,18 @@ class _ReusedOnuState extends State<ReusedOnu> {
         autofocus: true,
         initialValue: '',
         style: new TextStyle(
-                color: Colors.red,
-                fontSize: 20.0,
-              ),
+          color: Colors.red,
+          fontSize: 20.0,
+        ),
         decoration: InputDecoration(
           labelText: 'เลขวงจร:',
           helperText: 'Text Your Display CircuitId',
           hintText: 'กรุณาพิมพ์เลขวงจร',
           icon: Icon(
-          Icons.email,
-          size: 36.0,
-          color: Colors.blue,
-        ),
+            Icons.email,
+            size: 36.0,
+            color: Colors.blue,
+          ),
         ),
         onSaved: (String value) {
           name = value.trim();
@@ -150,7 +155,32 @@ class _ReusedOnuState extends State<ReusedOnu> {
     );
   }
 
-
+  Widget manualtxt() {
+    return Container(
+      margin: EdgeInsets.only(left: 50.0, right: 50.0),
+      child: TextFormField(
+        autofocus: true,
+        initialValue: '...',
+        autovalidate: false,
+        style: new TextStyle(
+          color: Colors.red,
+          fontSize: 20.0,
+        ),
+        decoration: InputDecoration(
+          labelText: 'Serial ที่ต้องการพิมพ์เอง:',
+          helperText: 'Serial, You can type',
+          icon: Icon(
+            Icons.account_box,
+            size: 36.0,
+            color: Colors.orange,
+          ),
+        ),
+        onSaved: (String value) {
+          mtext = value.trim();
+        },
+      ),
+    );
+  }
 
   Widget detailText() {
     return Container(
@@ -159,18 +189,18 @@ class _ReusedOnuState extends State<ReusedOnu> {
         // keyboardType: TextInputType.multiline,
         // maxLines: 4,
         style: new TextStyle(
-                color: Colors.red,
-                fontSize: 20.0,
-              ),
+          color: Colors.red,
+          fontSize: 20.0,
+        ),
         decoration: InputDecoration(
           labelText: 'ชื่อ นามสกุลลูกค้า:',
           helperText: 'Text Your Detail First-last name',
           hintText: 'ชื่อ - นามสกุล',
           icon: Icon(
-          Icons.lock,
-          size: 36.0,
-          color: Colors.green,
-        ),
+            Icons.lock,
+            size: 36.0,
+            color: Colors.green,
+          ),
         ),
         onSaved: (String value) {
           detail = value.trim();
@@ -185,21 +215,21 @@ class _ReusedOnuState extends State<ReusedOnu> {
       child: TextFormField(
         // keyboardType: TextInputType.multiline,
         // maxLines: 4,
-      keyboardType: TextInputType.number,
-      inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+        keyboardType: TextInputType.number,
+        inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
         style: new TextStyle(
-                color: Colors.red,
-                fontSize: 20.0,
-              ),
+          color: Colors.red,
+          fontSize: 20.0,
+        ),
         decoration: InputDecoration(
           labelText: 'เบอร์ติดต่อลูกค้า:',
           helperText: 'Text Your Detail Contact Number',
           hintText: 'เบอร์โทรศัพท์',
           icon: Icon(
-          Icons.face,
-          size: 36.0,
-          color: Colors.pink[400],
-        ),
+            Icons.face,
+            size: 36.0,
+            color: Colors.pink[400],
+          ),
         ),
         onSaved: (String value) {
           contactnum = value.trim();
@@ -215,18 +245,18 @@ class _ReusedOnuState extends State<ReusedOnu> {
         autofocus: true,
         initialValue: '$qrCodeString',
         style: new TextStyle(
-                color: Colors.red,
-                fontSize: 20.0,
-              ),
+          color: Colors.red,
+          fontSize: 20.0,
+        ),
         decoration: InputDecoration(
           labelText: 'QR/Barcode:',
           helperText: 'Text Your Display Code',
           hintText: '',
           icon: Icon(
-          Icons.crop_free,
-          size: 36.0,
-          color: Colors.black,
-        ),
+            Icons.crop_free,
+            size: 36.0,
+            color: Colors.black,
+          ),
         ),
         onSaved: (String value) {
           // textscan = value.trim();
@@ -239,7 +269,6 @@ class _ReusedOnuState extends State<ReusedOnu> {
 
   Widget dropdownstatic() {
     return DropdownButton(
-      
       icon: Icon(Icons.arrow_downward),
       hint: Text('กรุณาเลือก สิทธิ'),
       iconSize: 36,
@@ -348,57 +377,60 @@ class _ReusedOnuState extends State<ReusedOnu> {
   }
 
   Future<void> sendreuseonutwo() async {
+    // circuitj: req.body.circuitj,
+    // cpeid: req.body.onuid,
+    // laststatus: 'นำไปใช้งานใหม่',
+    // userlast: req.body.uid,
+    // dprovince: log5chk.dprovince
 
-          // circuitj: req.body.circuitj,
-          // cpeid: req.body.onuid,
-          // laststatus: 'นำไปใช้งานใหม่',
-          // userlast: req.body.uid,
-          // dprovince: log5chk.dprovince
+    // circuitj: req.body.circuitj,
+    // onuid: req.body.onuid,
+    // namei: req.body.namei,
+    // latitude: req.body.latitude,
+    // longitude: req.body.longitude,
+    // loc: {
+    //       type: "Point",
+    //       //coordinates: new Array(getRandomInRange(-180, 180, 3), getRandomInRange(-180,$
+    //       coordinates: new Array(req.body.longitude,req.body.latitude)
+    //     },
+    //  gpath: req.body.gpath,
+    //  laststatus: 'นำไปใช้งานใหม่',
+    //  province: req.body.province,
+    //  dprovince: log5chk.dprovince,
+    //  oldcircuitj: log5chk.circuitj
 
-          // circuitj: req.body.circuitj,
-          // onuid: req.body.onuid,
-          // namei: req.body.namei,
-          // latitude: req.body.latitude,
-          // longitude: req.body.longitude,
-          // loc: {
-          //       type: "Point",
-          //       //coordinates: new Array(getRandomInRange(-180, 180, 3), getRandomInRange(-180,$
-          //       coordinates: new Array(req.body.longitude,req.body.latitude)
-          //     },
-          //  gpath: req.body.gpath,
-          //  laststatus: 'นำไปใช้งานใหม่',
-          //  province: req.body.province,
-          //  dprovince: log5chk.dprovince,
-          //  oldcircuitj: log5chk.circuitj
-
-
-             
-              
 //radio = $radiovalue, model = $model1, circuitid = $name, namef = $detail, contactnumber = $contactnum,
 // onuid = $qrCodeString, dropdownstatic = ${_selectedCompany.name} , lat = $lat, lng = $lng, urlPicture = $urlPicture
-      //radio = เก็บคืน, model = zl660hj, circuitid = 1234J1234, namef = pop chokechone, contactnumber = 04323525389,
-      //onuid = 1234567890, dropdownstatic = ap_dlink , lat = 16.4426949, lng = 102.8344221, urlPicture = code7950
+    //radio = เก็บคืน, model = zl660hj, circuitid = 1234J1234, namef = pop chokechone, contactnumber = 04323525389,
+    //onuid = 1234567890, dropdownstatic = ap_dlink , lat = 16.4426949, lng = 102.8344221, urlPicture = code7950
     print('call post inonusec');
-    
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/reuseonutwo";
-    
-    var body = {
 
+    if (qrCodeString.length < 5) {
+      qrCodeString = mtext;
+    } else {
+      print(qrCodeString);
+    }
+
+    String urlpost =
+        "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/reuseonutwo";
+
+    var body = {
       "circuitj": name.toUpperCase(),
       "onuid": qrCodeString.trim(),
       "namei": detail.trim(),
       "latitude": lat.toString(),
       "longitude": lng.toString(),
       "userlast": tempuid,
-      // "gpath": 
+      // "gpath":
       "laststatus": 'นำไปใช้งานใหม่',
       "province": tempprv.trim(),
       "brand": _selectedCompany.name,
       "cservice": tempcs.trim(),
       // "dprovince":
     };
-    
-    var response = await http.post(urlpost, headers: {HttpHeaders.authorizationHeader: "JWT $token"}, body: body);
+
+    var response = await http.post(urlpost,
+        headers: {HttpHeaders.authorizationHeader: "JWT $token"}, body: body);
 
     if (response.statusCode == 200) {
       print(response.statusCode);
@@ -408,22 +440,22 @@ class _ReusedOnuState extends State<ReusedOnu> {
       if (result.toString() == 'null') {
         myAlert('Not Success', 'No ,put data in my Database');
       } else {
-        if (_isButtonDisabled == true){
-        setState(() {
-          _isButtonDisabled = false; // disable ปุ่ม
-        });
-        }else{
+        if (_isButtonDisabled == true) {
+          setState(() {
+            _isButtonDisabled = false; // disable ปุ่ม
+          });
+        } else {
           print('_isButtonDisabled = false');
         }
         if ((result['status']) && (result['success'])) {
-          
           // String getmessage = ' บันทึกข้อมูล เก็บคืน/ขอใช้ต่อ OK';
           String getmessage = result['message2'];
-          
-          var addChildrenRoute = MaterialPageRoute( //condition: radiovalue, datafind: name.toUpperCase()
-          builder: (BuildContext context) => LastSubM(successtxt: getmessage));
-          Navigator.of(context).push(addChildrenRoute);
 
+          var addChildrenRoute = MaterialPageRoute(
+              //condition: radiovalue, datafind: name.toUpperCase()
+              builder: (BuildContext context) =>
+                  LastSubM(successtxt: getmessage));
+          Navigator.of(context).push(addChildrenRoute);
         } else {
           String getmessage = result['message2'];
           myAlert('Not OK', '$getmessage');
@@ -496,7 +528,8 @@ class _ReusedOnuState extends State<ReusedOnu> {
           onPressed: () {
             if (imageBool) {
               formKey.currentState.save();
-              if ((name.length < 4) || (detail.length < 4)) { //&& (name.length > 5)
+              if ((name.length < 4) || (detail.length < 4)) {
+                //&& (name.length > 5)
                 myAlert('Have Space', 'Please Fill Every Data');
               } else {
                 // check name,detail
@@ -551,9 +584,15 @@ class _ReusedOnuState extends State<ReusedOnu> {
           SizedBox(
             height: 10.0,
           ),
-          SelectableText('$qrCodeString',
-          style: TextStyle(fontSize: 20.0),
-          textAlign: TextAlign.center,),
+          SelectableText(
+            '$qrCodeString',
+            style: TextStyle(fontSize: 20.0),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          manualtxt(),
           SizedBox(
             height: 10.0,
           ),
@@ -564,15 +603,20 @@ class _ReusedOnuState extends State<ReusedOnu> {
           SizedBox(
             height: 5.0,
           ),
-          SelectableText('$lat,$lng',
-          style: TextStyle(fontSize: 18.0, backgroundColor: Colors.orange[200], color: Colors.black),
-          textAlign: TextAlign.center,),
+          SelectableText(
+            '$lat,$lng',
+            style: TextStyle(
+                fontSize: 18.0,
+                backgroundColor: Colors.orange[200],
+                color: Colors.black),
+            textAlign: TextAlign.center,
+          ),
           SizedBox(
             height: 5.0,
           ),
           (lat.toString().isNotEmpty) ? uploadValueButton() : showtxt(),
         ],
-      ),      
+      ),
     );
   }
 }

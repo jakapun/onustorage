@@ -226,15 +226,14 @@ class _RegisterState extends State<Register> {
           onPressed: () {
             if (formKey.currentState.validate()) {
               formKey.currentState.save();
-              if ((getdeviceid.isEmpty) || (getlineid.isEmpty)) {
-                myAlert('มีข้อผิดพลาด',
-                    'ไม่มี Line UserId  \r\n ไม่มี DeviceId \r\n ที่ต้องใช้งาน');
-              } else {
+              // if ((getdeviceid.isEmpty) || (getlineid.isEmpty)) {
+              //   myAlert('มีข้อผิดพลาด',
+              //       'ไม่มี Line UserId  \r\n ไม่มี DeviceId \r\n ที่ต้องใช้งาน');
+              // } else {
                 print(
                     'line User id = $getlineid, DeviceID = $getdeviceid, namef = $nameStringf, namel = $nameStringl, totid = $emailString, passweb = $passwordString, dropdown = $_mySelection');
                 _onShowCondition();
-                // register();
-              }
+              //}
             }
           },
         ),
@@ -249,7 +248,7 @@ class _RegisterState extends State<Register> {
     var body = {
       "fullname": fullname,
       "username": emailString.trim(),
-      "password": emailString.trim(),
+      "password": passwordString.trim(),
       "province": _mySelection.trim(),
       "fname": nameStringf.trim(),
       "deviceid": emailString.trim(),
