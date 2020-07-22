@@ -414,7 +414,7 @@ class _PostinstallState extends State<Postinstall> {
       ),
       items: data.map((item) {
         return new DropdownMenuItem(
-          child: new Text(item['allname2']),
+          child: new Text(item['DeviceModelName']),
           //value: item['EN'],
           value: item['allname'],
         );
