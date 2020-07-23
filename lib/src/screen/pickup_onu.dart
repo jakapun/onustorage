@@ -78,7 +78,7 @@ class _PickupOnuState extends State<PickupOnu> {
 
   final formKey = GlobalKey<FormState>();
   String name, detail, code, urlPicture, contactnum, textscan, qrCodeString = '', model1 ='', firsta = '';
-  String tempprv, temprela, tempcs, token = '', tempuid = '', radiovalue = '', _mySelection = '';
+  String tempprv, temprela, tempcs, token = '', tempuid = '', radiovalue = '', _mySelection;
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
   Company _selectedCompany;
@@ -110,9 +110,10 @@ class _PickupOnuState extends State<PickupOnu> {
     _selectedCompany = _dropdownMenuItems[0].value;
     // เริ่มทำงานตรงนี้ก่อนที่อื่น
     super.initState();
+    this.getSWData();
     findLatLng();
     createCode();
-    this.getSWData();
+    //this.getSWData();
   }
 
   List<DropdownMenuItem<Company>> buildDropdownMenuItems(List companies) {
@@ -447,7 +448,7 @@ class _PickupOnuState extends State<PickupOnu> {
     return Container(
       margin: EdgeInsets.only(top: 50.0),
       height: 200.0,
-      child: file == null ? Image.asset('images/pic.png') : Image.file(file),
+      child: file == null ? Image.asset('images/login1.png') : Image.file(file),
     );
   }
 
@@ -600,8 +601,8 @@ class _PickupOnuState extends State<PickupOnu> {
       ),
       items: data.map((item) {
         return new DropdownMenuItem(
-          child: new Text(item['DeviceModelName']),
-          //value: item['EN'],
+          // child: new Text(item['DeviceModelName']),
+          child: new Text(item['allname2']),
           value: item['allname'],
         );
       }).toList(),
@@ -701,7 +702,7 @@ class _PickupOnuState extends State<PickupOnu> {
           SizedBox(
             height: 10.0,
           ),
-          modeltext(),
+          // modeltext(),
           nameText(),
           SizedBox(
             height: 10.0,

@@ -77,7 +77,7 @@ class _PostinstallState extends State<Postinstall> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   String name, detail, code, urlPicture, contactnum, textscan, qrCodeString = '', model1 ='', firsta = '';
   String tempprv, temprela, tempcs, token = '', tempuid = '', radiovalue = '', tempmac = '';
-  String  getlastqr = '', getdtype = '', getdname = '', getdmodel = '', getmac = '', _mySelection = '';
+  String  getlastqr = '', getdtype = '', getdname = '', getdmodel = '', getmac = '', _mySelection;
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
   Company _selectedCompany;
@@ -414,8 +414,8 @@ class _PostinstallState extends State<Postinstall> {
       ),
       items: data.map((item) {
         return new DropdownMenuItem(
-          child: new Text(item['DeviceModelName']),
-          //value: item['EN'],
+          // child: new Text(item['DeviceModelName']),
+          child: new Text(item['allname2']),
           value: item['allname'],
         );
       }).toList(),
@@ -449,7 +449,7 @@ class _PostinstallState extends State<Postinstall> {
     return Container(
       margin: EdgeInsets.only(top: 50.0),
       height: 200.0,
-      child: file == null ? Image.asset('images/pic.png') : Image.file(file),
+      child: file == null ? Image.asset('images/login1.png') : Image.file(file),
     );
   }
 
