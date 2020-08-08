@@ -69,22 +69,24 @@ class _HomePageState extends State<HomePage>
               ),
             ),
 
-            Expanded(
-                child: Center(
-              child: RaisedButton(
-                textColor: textColor,
-                color: accentColor,
-                onPressed: _signIn2,
-                child: Text('ยกเลิก ล็อกอินด้วยLine'),
-              ),
+            // Expanded(
+            //     child: Center(
+            //   child: RaisedButton(
+            //     textColor: textColor,
+            //     color: accentColor,
+            //     onPressed: _signIn2,
+            //     child: Text('ยกเลิก ล็อกอินด้วยLine'),
+            //   ),
               
-            )
-            ),
+            // )
+            // ),
             Expanded(
               child: Center(
                 child: RaisedButton(
+                // textColor: textColor,
+                // color: Colors.blueAccent,
                 textColor: textColor,
-                color: Colors.blueAccent,
+                color: accentColor,
                 onPressed: () {
             MaterialPageRoute materialPageRoute =
             MaterialPageRoute(builder: (BuildContext context) => LoginPage());
@@ -166,10 +168,6 @@ class _HomePageState extends State<HomePage>
 
   //   return Row(children: widgetList);
   // }
-
-  void _signIn2() async {
-
-  }
 
   // void _signIn() async {
   //   try {

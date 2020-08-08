@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
         helperText: 'TOT Employee Id',
         helperStyle: TextStyle(color: Colors.blue),
         icon: Icon(
-          Icons.email,
+          Icons.account_circle,
           size: 36.0,
           color: Colors.blue,
         ),
@@ -83,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
         labelStyle: TextStyle(color: Colors.green),
         helperText: 'More 6 digit',
         helperStyle: TextStyle(color: Colors.green),
+
         icon: Icon(
           Icons.lock,
           size: 36.0,
@@ -99,6 +100,7 @@ class _LoginPageState extends State<LoginPage> {
       onSaved: (String value) {
         passwordString = value;
       },
+      obscureText: true,
     );
   }
 

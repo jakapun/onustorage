@@ -83,6 +83,11 @@ class _PostinstallState extends State<Postinstall> {
   Company _selectedCompany;
   SharedPreferences prefs;
 
+  // alphanumeric and _-=@,.;
+  //static final validCharacters = RegExp(r'^[a-zA-Z0-9_\-=@,\.;]+$');
+  static final validCharacters = RegExp(r'^[A-Z0-9&%=]+$');
+  
+
   final String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getmodel_concat";
 
 
@@ -625,6 +630,8 @@ class _PostinstallState extends State<Postinstall> {
                 urlPicture = code;
                 // print('radio = $radiovalue, model = $model1, circuitid = $name, namef = $detail, contactnumber = $contactnum, onuid = $qrCodeString, dropdownstatic = ${_selectedCompany.name} , lat = $lat, lng = $lng, urlPicture = $urlPicture');
                 print('circuidid = $name, mac = $qrCodeString, typei = $radiovalue, lat = $lat, lng = $lng, qrtxt = $getlastqr, prv = $tempprv, nvision = $temprela');
+                print(getlastqr);
+                print(validCharacters.hasMatch(getlastqr));
                 sendnewonu();
                 }else{
                   myAlert('MAC/ชื่อวงจร มีปัญหา', 'Macaddress ที่สแกนกับในระบบ \r\n $getmac != $qrCodeString \r\n มีปัญหา ติดต่อ admin');

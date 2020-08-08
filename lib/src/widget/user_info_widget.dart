@@ -28,7 +28,7 @@ class UserInfoWidget extends StatelessWidget {
           ) : Icon(Icons.person),
           Text(
             userProfile.displayName, 
-            style: Theme.of(context).textTheme.headline
+            style: Theme.of(context).textTheme.headline1
           ),
           Text(
             userProfile.statusMessage

@@ -12,9 +12,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 
-
 class PickupOnu extends StatefulWidget {
-
   PickupOnu() : super();
 
   @override
@@ -42,7 +40,6 @@ class Company {
       Company(11, 'AP_อื่นๆ'),
       Company(12, 'SW_อื่นๆ'),
 
-      
       // <ion-item>
       //         <ion-label floating>ยี่ห้อ onu/accesspoint</ion-label>
       //         <ion-select ngModel name="brand">
@@ -63,13 +60,11 @@ class Company {
       //         <ion-label floating>รุ่น onu/accesspoint</ion-label>
       //         <ion-input ngModel name="model" type="text" pattern="^[a-zA-Z0-9_-]+$"></ion-input>
       //     </ion-item>
-
     ];
   }
 }
 
 class _PickupOnuState extends State<PickupOnu> {
-
   // explicit
   File file;
   double lat, lng;
@@ -77,15 +72,33 @@ class _PickupOnuState extends State<PickupOnu> {
   bool _isButtonDisabled = true;
 
   final formKey = GlobalKey<FormState>();
-  String name, detail, code, urlPicture, contactnum, textscan, qrCodeString = '', model1 ='', firsta = '';
-  String tempprv, temprela, tempcs, token = '', tempuid = '', radiovalue = '', _mySelection;
+  String name,
+      detail,
+      code,
+      urlPicture,
+      contactnum,
+      textscan,
+      qrCodeString = '',
+      model1 = '',
+      firsta = '';
+  String tempprv,
+      temprela,
+      tempcs,
+      token = '',
+      tempuid = '',
+      radiovalue = '',
+      _mySelection;
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
   Company _selectedCompany;
   SharedPreferences prefs;
 
-  final String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getmodel_concat";
+  // alphanumeric and _-=@,.;
+  //static final validCharacters = RegExp(r'^[a-zA-Z0-9_\-=@,\.;]+$');
+  static final validCharacters = RegExp(r'^[A-Z0-9&%=]+$');
 
+  final String url =
+      "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getmodel_concat";
 
   List data = List(); //edited line
 
@@ -141,7 +154,6 @@ class _PickupOnuState extends State<PickupOnu> {
   }
 
   Future<void> findLatLng() async {
-
     prefs = await SharedPreferences.getInstance();
 
     tempprv = prefs.getString('sprv');
@@ -177,50 +189,49 @@ class _PickupOnuState extends State<PickupOnu> {
   }
 
   Future<void> sendinonusec() async {
-             
-              // circuitj: req.body.circuitj,
-              // cpeid: req.body.onuid,
-              // laststatus: req.body.chgmind,
-              // province: req.body.province,
-              // stamptime: utc,
-              // typecpe: req.body.brand,
-              // onuap: o_a[0],
-              // ymonth: rpstr2,
-              // userlast: req.body.uid,
-              // dprovince: req.body.dprovince
+    // circuitj: req.body.circuitj,
+    // cpeid: req.body.onuid,
+    // laststatus: req.body.chgmind,
+    // province: req.body.province,
+    // stamptime: utc,
+    // typecpe: req.body.brand,
+    // onuap: o_a[0],
+    // ymonth: rpstr2,
+    // userlast: req.body.uid,
+    // dprovince: req.body.dprovince
 
-              //     circuitj: req.body.circuitj,  $name
-              //     onuid: req.body.onuid, $qrCodeString
-              //     namei: req.body.namei, $detail
-              //     latitude: req.body.latitude, $lat
-              //     longitude: req.body.longitude, $lng
-              //     userlast: req.body.uid, $tempuid
-              //     gpath: req.body.gpath,
-              //     laststatus: req.body.chgmind, _selectedCompany.name
-              //     province: req.body.province, tempprv
-              //     logintime: utc,
-              //     model: req.body.model,
-              //     brand: req.body.brand,
-              //     chgmind: req.body.chgmind, _selectedCompany.name
-              //     ymonth: rpstr2,
-              //     dprovince: req.body.dprovince, , temprela
+    //     circuitj: req.body.circuitj,  $name
+    //     onuid: req.body.onuid, $qrCodeString
+    //     namei: req.body.namei, $detail
+    //     latitude: req.body.latitude, $lat
+    //     longitude: req.body.longitude, $lng
+    //     userlast: req.body.uid, $tempuid
+    //     gpath: req.body.gpath,
+    //     laststatus: req.body.chgmind, _selectedCompany.name
+    //     province: req.body.province, tempprv
+    //     logintime: utc,
+    //     model: req.body.model,
+    //     brand: req.body.brand,
+    //     chgmind: req.body.chgmind, _selectedCompany.name
+    //     ymonth: rpstr2,
+    //     dprovince: req.body.dprovince, , temprela
 //radio = $radiovalue, model = $model1, circuitid = $name, namef = $detail, contactnumber = $contactnum,
 // onuid = $qrCodeString, dropdownstatic = ${_selectedCompany.name} , lat = $lat, lng = $lng, urlPicture = $urlPicture
-      //radio = เก็บคืน, model = zl660hj, circuitid = 1234J1234, namef = pop chokechone, contactnumber = 04323525389,
-      //onuid = 1234567890, dropdownstatic = ap_dlink , lat = 16.4426949, lng = 102.8344221, urlPicture = code7950
+    //radio = เก็บคืน, model = zl660hj, circuitid = 1234J1234, namef = pop chokechone, contactnumber = 04323525389,
+    //onuid = 1234567890, dropdownstatic = ap_dlink , lat = 16.4426949, lng = 102.8344221, urlPicture = code7950
     print('call post inonusec');
-    
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/inonusec";
-    
-    var body = {
 
+    String urlpost =
+        "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/inonusec";
+
+    var body = {
       "circuitj": name.toUpperCase(),
       "onuid": qrCodeString.trim(),
       // "namei": detail.trim(),
       "latitude": lat.toString(),
       "longitude": lng.toString(),
       "userlast": tempuid,
-      // "gpath": 
+      // "gpath":
       "laststatus": radiovalue,
       "province": tempprv.trim(),
       "cservice": tempcs.trim(),
@@ -229,8 +240,9 @@ class _PickupOnuState extends State<PickupOnu> {
       "chgmind": radiovalue,
       // "dprovince":
     };
-    
-    var response = await http.post(urlpost, headers: {HttpHeaders.authorizationHeader: "JWT $token"}, body: body);
+
+    var response = await http.post(urlpost,
+        headers: {HttpHeaders.authorizationHeader: "JWT $token"}, body: body);
 
     if (response.statusCode == 200) {
       print(response.statusCode);
@@ -240,22 +252,22 @@ class _PickupOnuState extends State<PickupOnu> {
       if (result.toString() == 'null') {
         myAlert('Not Success', 'No ,put data in my Database');
       } else {
-        if (_isButtonDisabled == true){
-        setState(() {
-          _isButtonDisabled = false; // disable ปุ่ม
-        });
-        }else{
+        if (_isButtonDisabled == true) {
+          setState(() {
+            _isButtonDisabled = false; // disable ปุ่ม
+          });
+        } else {
           print('_isButtonDisabled = false');
         }
         if ((result['status']) && (result['success'])) {
-          
           // String getmessage = ' บันทึกข้อมูล เก็บคืน/ขอใช้ต่อ OK';
           String getmessage = result['message2'];
-          
-          var addChildrenRoute = MaterialPageRoute( //condition: radiovalue, datafind: name.toUpperCase()
-          builder: (BuildContext context) => LastSubM(successtxt: getmessage));
-          Navigator.of(context).push(addChildrenRoute);
 
+          var addChildrenRoute = MaterialPageRoute(
+              //condition: radiovalue, datafind: name.toUpperCase()
+              builder: (BuildContext context) =>
+                  LastSubM(successtxt: getmessage));
+          Navigator.of(context).push(addChildrenRoute);
         } else {
           String getmessage = result['message2'];
           myAlert('Not OK', '$getmessage');
@@ -271,16 +283,17 @@ class _PickupOnuState extends State<PickupOnu> {
     return Container(
       width: 220.0,
       child: RadioButtonGroup(
-          labels: [
-            "เก็บคืน",
-            "ขอใช้ต่อ",
-          ],
-          disabled: [
-            // "In Area"
-          ],
-          onChange: (String label, int index) => print("label: $label index: $index"),
-          onSelected: (String label) => radiovalue = label,
-        ),
+        labels: [
+          "เก็บคืน",
+          "ขอใช้ต่อ",
+        ],
+        disabled: [
+          // "In Area"
+        ],
+        onChange: (String label, int index) =>
+            print("label: $label index: $index"),
+        onSelected: (String label) => radiovalue = label,
+      ),
       // onSaved: (String value) {
       //     passwordString = value;
       //   },
@@ -294,17 +307,17 @@ class _PickupOnuState extends State<PickupOnu> {
         autofocus: true,
         initialValue: '',
         style: new TextStyle(
-                color: Colors.red,
-                fontSize: 20.0,
-              ),
+          color: Colors.red,
+          fontSize: 20.0,
+        ),
         decoration: InputDecoration(
           labelText: 'รุ่นอุปกรณ์',
           helperText: 'Model',
           icon: Icon(
-          Icons.email,
-          size: 36.0,
-          color: Colors.blue,
-        ),
+            Icons.email,
+            size: 36.0,
+            color: Colors.blue,
+          ),
         ),
         onSaved: (String value) {
           model1 = value.trim();
@@ -320,18 +333,18 @@ class _PickupOnuState extends State<PickupOnu> {
         autofocus: true,
         initialValue: '',
         style: new TextStyle(
-                color: Colors.red,
-                fontSize: 20.0,
-              ),
+          color: Colors.red,
+          fontSize: 20.0,
+        ),
         decoration: InputDecoration(
           labelText: 'เลขวงจร:',
           helperText: 'Text Your Display CircuitId',
           hintText: 'กรุณาพิมพ์เลขวงจร',
           icon: Icon(
-          Icons.email,
-          size: 36.0,
-          color: Colors.blue,
-        ),
+            Icons.email,
+            size: 36.0,
+            color: Colors.blue,
+          ),
         ),
         onSaved: (String value) {
           name = value.trim();
@@ -340,8 +353,6 @@ class _PickupOnuState extends State<PickupOnu> {
     );
   }
 
-
-
   Widget detailText() {
     return Container(
       margin: EdgeInsets.only(left: 50.0, right: 50.0),
@@ -349,18 +360,18 @@ class _PickupOnuState extends State<PickupOnu> {
         // keyboardType: TextInputType.multiline,
         // maxLines: 4,
         style: new TextStyle(
-                color: Colors.red,
-                fontSize: 20.0,
-              ),
+          color: Colors.red,
+          fontSize: 20.0,
+        ),
         decoration: InputDecoration(
           labelText: 'ชื่อ นามสกุลลูกค้า:',
           helperText: 'Text Your Detail First-last name',
           hintText: 'ชื่อ - นามสกุล',
           icon: Icon(
-          Icons.lock,
-          size: 36.0,
-          color: Colors.green,
-        ),
+            Icons.lock,
+            size: 36.0,
+            color: Colors.green,
+          ),
         ),
         onSaved: (String value) {
           detail = value.trim();
@@ -375,21 +386,21 @@ class _PickupOnuState extends State<PickupOnu> {
       child: TextFormField(
         // keyboardType: TextInputType.multiline,
         // maxLines: 4,
-      keyboardType: TextInputType.number,
-      inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+        keyboardType: TextInputType.number,
+        inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
         style: new TextStyle(
-                color: Colors.red,
-                fontSize: 20.0,
-              ),
+          color: Colors.red,
+          fontSize: 20.0,
+        ),
         decoration: InputDecoration(
           labelText: 'เบอร์ติดต่อลูกค้า:',
           helperText: 'Text Your Detail Contact Number',
           hintText: 'เบอร์โทรศัพท์',
           icon: Icon(
-          Icons.face,
-          size: 36.0,
-          color: Colors.pink[400],
-        ),
+            Icons.face,
+            size: 36.0,
+            color: Colors.pink[400],
+          ),
         ),
         onSaved: (String value) {
           contactnum = value.trim();
@@ -405,18 +416,18 @@ class _PickupOnuState extends State<PickupOnu> {
         autofocus: true,
         initialValue: '$qrCodeString',
         style: new TextStyle(
-                color: Colors.red,
-                fontSize: 20.0,
-              ),
+          color: Colors.red,
+          fontSize: 20.0,
+        ),
         decoration: InputDecoration(
           labelText: 'QR/Barcode:',
           helperText: 'Text Your Display Code',
           hintText: '',
           icon: Icon(
-          Icons.crop_free,
-          size: 36.0,
-          color: Colors.black,
-        ),
+            Icons.crop_free,
+            size: 36.0,
+            color: Colors.black,
+          ),
         ),
         onSaved: (String value) {
           // textscan = value.trim();
@@ -429,7 +440,6 @@ class _PickupOnuState extends State<PickupOnu> {
 
   Widget dropdownstatic() {
     return DropdownButton(
-      
       icon: Icon(Icons.arrow_downward),
       hint: Text('กรุณาเลือก'),
       iconSize: 36,
@@ -636,8 +646,10 @@ class _PickupOnuState extends State<PickupOnu> {
                 urlPicture = code;
                 print(
                     'radio = $radiovalue, model = $model1, circuitid = $name, namef = $detail, contactnumber = $contactnum, onuid = $qrCodeString, dropdownstatic = ${_selectedCompany.name} , lat = $lat, lng = $lng, urlPicture = $urlPicture');
-  // radio = เก็บคืน, model = zl660hj, circuitid = 1234J1234, namef = pop chokechone, contactnumber = 04323525389,
- // onuid = 1234567890, dropdownstatic = ap_dlink , lat = 16.4426949, lng = 102.8344221, urlPicture = code7950
+                // radio = เก็บคืน, model = zl660hj, circuitid = 1234J1234, namef = pop chokechone, contactnumber = 04323525389,
+                // onuid = 1234567890, dropdownstatic = ap_dlink , lat = 16.4426949, lng = 102.8344221, urlPicture = code7950
+                print(qrCodeString);
+                print(validCharacters.hasMatch(qrCodeString));
                 sendinonusec();
               }
             } else {
@@ -674,48 +686,50 @@ class _PickupOnuState extends State<PickupOnu> {
     return Form(
       key: formKey,
       child: Container(
-          alignment: Alignment.topCenter,
+        alignment: Alignment.topCenter,
+        // padding: EdgeInsets.only(top: 60.0),
+        child: ListView(
+          // alignment: Alignment.topCenter,
           // padding: EdgeInsets.only(top: 60.0),
-      child: ListView(
-        // alignment: Alignment.topCenter,
-        // padding: EdgeInsets.only(top: 60.0),      
-        padding: EdgeInsets.only(
-          // bottom: 50.0,
-          right: 10.0,
-          left: 10.0,
+          padding: EdgeInsets.only(
+            // bottom: 50.0,
+            right: 10.0,
+            left: 10.0,
+          ),
+          children: <Widget>[
+            showhpage(),
+            showImage(),
+            showButton(),
+            SizedBox(
+              height: 10.0,
+            ),
+            SelectableText(
+              '$qrCodeString',
+              style: TextStyle(fontSize: 20.0),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            //dropdownstatic(),
+            dropdownButton(),
+            SizedBox(
+              height: 10.0,
+            ),
+            // modeltext(),
+            nameText(),
+            SizedBox(
+              height: 10.0,
+            ),
+            // detailText(),
+            // contactText(),
+            radiocheck1(),
+            SizedBox(
+              height: 10.0,
+            ),
+            (lat.toString().isNotEmpty) ? uploadValueButton() : showtxt(),
+          ],
         ),
-        children: <Widget>[
-          showhpage(),
-          showImage(),
-          showButton(),
-          SizedBox(
-            height: 10.0,
-          ),
-          SelectableText('$qrCodeString',
-          style: TextStyle(fontSize: 20.0),
-          textAlign: TextAlign.center,),
-          SizedBox(
-            height: 10.0,
-          ),
-          //dropdownstatic(),
-          dropdownButton(),
-          SizedBox(
-            height: 10.0,
-          ),
-          // modeltext(),
-          nameText(),
-          SizedBox(
-            height: 10.0,
-          ),
-          // detailText(),
-          // contactText(),
-          radiocheck1(),
-          SizedBox(
-            height: 10.0,
-          ),
-          (lat.toString().isNotEmpty) ? uploadValueButton() : showtxt(),
-        ],
-      ),
       ),
     );
   }
