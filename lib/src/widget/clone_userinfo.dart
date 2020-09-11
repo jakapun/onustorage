@@ -17,6 +17,7 @@ import 'package:onu_storage/src/screen/pre_getonu.dart';
 import 'package:onu_storage/src/screen/pre_pickup.dart';
 import 'package:onu_storage/src/screen/register.dart';
 import 'package:onu_storage/src/screen/reused_onu.dart';
+import 'package:onu_storage/src/screen/transfer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:imei_plugin/imei_plugin.dart';
 
@@ -61,7 +62,7 @@ class _CloneUserState extends State<CloneUser> {
 
   // Future<void> initPlatformState() async {
   //   String platformImei;
-    
+
   //   try {
   //     platformImei = await ImeiPlugin.getImei( shouldShowRequestPermissionRationale: false );
   //   } on PlatformException {
@@ -85,12 +86,13 @@ class _CloneUserState extends State<CloneUser> {
               actions: <Widget>[
                 FlatButton(
                   child: Text('No',
-                  style: TextStyle(fontSize: 17.0, color: Colors.black)),
+                      style: TextStyle(fontSize: 17.0, color: Colors.black)),
                   onPressed: () => Navigator.pop(context, false),
                 ),
                 FlatButton(
                     child: Text('Yes',
-                    style: TextStyle(fontSize: 17.0, color: Colors.red[800])),
+                        style:
+                            TextStyle(fontSize: 17.0, color: Colors.red[800])),
                     onPressed: () {
                       clearSharePreferance(context);
                       // widget.onSignOutPressed();
@@ -114,16 +116,13 @@ class _CloneUserState extends State<CloneUser> {
     scaffoldKey.currentState.showSnackBar(snackBar);
   }
 
-  Future<void> checkAuthen2() async {
-
-  }
+  Future<void> checkAuthen2() async {}
 
   Future<void> checkAuthen() async {
-    if ((_platformImei.length <= 5) || ( getlineid.length <= 5)) {
+    if ((_platformImei.length <= 5) || (getlineid.length <= 5)) {
       print('user = $getlineid, password = $_platformImei');
       myShowSnackBar('$getlineid $_platformImei');
     } else {
-      
       /*
     str1.toLowerCase(); // lorem
     str1.toUpperCase(); // LOREM
@@ -134,7 +133,8 @@ class _CloneUserState extends State<CloneUser> {
     101.109.115.27:2500/api/flutterget/User=123456
     */
       // uid: user.fname, prv: user.province, priv: user.privilege
-      String urlString = 'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/signin';
+      String urlString =
+          'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/signin';
 
       var body = {
         "username": getlineid,
@@ -144,7 +144,7 @@ class _CloneUserState extends State<CloneUser> {
 
       // var response = await get(urlString);
       var response = await post(urlString, body: body);
-      
+
       if (response.statusCode == 200) {
         print(response.statusCode);
         var result = json.decode(response.body);
@@ -153,8 +153,7 @@ class _CloneUserState extends State<CloneUser> {
         if (result.toString() == 'null') {
           myAlert('User False', 'No Username in my Database');
         } else {
-        
-            if (result['status']) {
+          if (result['status']) {
             String token = result['token'];
             token = token.split(' ').last;
             // print(token);
@@ -165,14 +164,15 @@ class _CloneUserState extends State<CloneUser> {
               //  uid: user.fname, prv: user.province, priv: user.privilege
               await prefs.setString('suid', result['uid']);
               await prefs.setString('sprv', result['prv']);
-              await prefs.setInt('spriv', result['priv']); //store preference Integer
+              await prefs.setInt(
+                  'spriv', result['priv']); //store preference Integer
               await prefs.setString('srelate', result['relate']);
               await prefs.setString('scouters', result['cs']);
               await prefs.setString('slinepic', picurl);
               // String sValue = prefs.getString('stoken');
               // print(sValue);
               // print(prefs.getInt('spriv').toString());
-              
+
               // String urlString2 =
               //     'http://8a7a08360daf.sn.mynetname.net:2528/api/flutterget/123456';
               // var response2 = await get(urlString2,
@@ -198,7 +198,6 @@ class _CloneUserState extends State<CloneUser> {
             } else {
               myAlert('Respond Fail', 'Backend Not Reply,Session empty');
             }
-
           } else {
             // print(result['error']);
             myAlert('Error', response.statusCode.toString());
@@ -265,8 +264,6 @@ class _CloneUserState extends State<CloneUser> {
           fontFamily: 'PermanentMarker'),
     );
   }
-
-  
 
   Widget mySizeBox() {
     return SizedBox(
@@ -350,12 +347,10 @@ class _CloneUserState extends State<CloneUser> {
       ),
       body: Center(
         child: (picurl.isNotEmpty)
-            ? Image.network(picurl,
-                width: 200, height: 200)
+            ? Image.network(picurl, width: 200, height: 200)
             : Icon(Icons.person),
         // child: Text('Login by $nameString'),
       ),
-    
     );
   }
 
@@ -363,7 +358,6 @@ class _CloneUserState extends State<CloneUser> {
     return Scaffold(
       key: scaffoldKey,
       resizeToAvoidBottomPadding: true,
-      
       body: Center(
         child: Container(
           decoration: BoxDecoration(
@@ -378,14 +372,13 @@ class _CloneUserState extends State<CloneUser> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                (picurl.isNotEmpty) ?
-          Image.network(
-            picurl,
-            fit: BoxFit.cover
-            // width: 200, 
-            // height: 200
-          ) : Icon(Icons.person),
-                (temps == 'xxx')  ? showTextndef() : showText(),
+                (picurl.isNotEmpty)
+                    ? Image.network(picurl, fit: BoxFit.cover
+                        // width: 200,
+                        // height: 200
+                        )
+                    : Icon(Icons.person),
+                (temps == 'xxx') ? showTextndef() : showText(),
                 mySizeBoxH(),
                 // (privilege < 1) ? mySizeBoxH() : myButton(),
                 myButton(),
@@ -520,7 +513,7 @@ class _CloneUserState extends State<CloneUser> {
         color: Colors.yellow[700],
       ),
       title: Text(
-        'รับโอนย้าย ONU เข้า สนง.',
+        'รับโอนย้าย ONU(ใหม่)เข้า สนง.',
         style: TextStyle(fontSize: 18.0),
       ),
       // on tap == on click
@@ -528,6 +521,28 @@ class _CloneUserState extends State<CloneUser> {
         Navigator.of(context).pop();
         setState(() {
           myWidget = PreGetOnu();
+          // Navigator.of(context).pop();
+        });
+      },
+    ); // https://material.io/resources/icons/?style=baseline
+  }
+
+  Widget testTransfer() {
+    return ListTile(
+      leading: Icon(
+        Icons.filter_3,
+        size: 36.0,
+        color: Colors.yellow[700],
+      ),
+      title: Text(
+        'รับโอนย้าย ONU(เก่า)สถานะพร้อมใช้',
+        style: TextStyle(fontSize: 18.0),
+      ),
+      // on tap == on click
+      onTap: () {
+        Navigator.of(context).pop();
+        setState(() {
+          myWidget = Transfer();
           // Navigator.of(context).pop();
         });
       },
@@ -682,7 +697,8 @@ class _CloneUserState extends State<CloneUser> {
       // on tap == on click
       onTap: () {
         Navigator.of(context).pop();
-        setState(() { //condition: 'Serial', datafind: '4381J2393'
+        setState(() {
+          //condition: 'Serial', datafind: '4381J2393'
           // myWidget = OnuModel();
           myWidget = FindOne();
           // Navigator.of(context).pop();
@@ -705,173 +721,165 @@ class _CloneUserState extends State<CloneUser> {
   }
 
   Widget myDrawer() {
-    if ((privilege > 0) && (temps != 'xxx')){
-      if (privilege == 6){  //Company(6, 'ผู้รับเหมา/ช่าง tot'),
+    if ((privilege > 0) && (temps != 'xxx')) {
+      if (privilege == 6) {
+        //Company(6, 'ผู้รับเหมา/ช่าง tot'),
         return Drawer(
-      child: ListView(
-        children: <Widget>[
-                myDrawerHeader(),
-                menuInstallOnu(),
-                Divider(),
-                menuReuseOnu(),
-                Divider(),
-                menuFindone(),
-                Divider(),
-                menuLogout(),
-                Divider(),
-                // showBack(),
-              ],
-            )
-        
-    );
-
-      } else if(privilege == 8){ //Company(8, 'ศูนย์สนับสนุน การปฏิบัติการ'),
+            child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            menuInstallOnu(),
+            Divider(),
+            menuReuseOnu(),
+            Divider(),
+            menuFindone(),
+            Divider(),
+            menuLogout(),
+            Divider(),
+            // showBack(),
+          ],
+        ));
+      } else if (privilege == 8) {
+        //Company(8, 'ศูนย์สนับสนุน การปฏิบัติการ'),
         return Drawer(
-      child: ListView(
-        children: <Widget>[
-                myDrawerHeader(),
-                menuPickupOnu(),
-                Divider(),
-                menuFindone(),
-                Divider(),
-                formonlyweb(),
-                Divider(),
-                menuLogout(),
-                Divider(),
-                // showBack(),
-              ],
-            )
-        
-    );
-
-     } else if(privilege == 9){ //Company(3, 'เก็บคืน/ตรวจสอบ'),
+            child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            menuPickupOnu(),
+            Divider(),
+            menuFindone(),
+            Divider(),
+            formonlyweb(),
+            Divider(),
+            menuLogout(),
+            Divider(),
+            // showBack(),
+          ],
+        ));
+      } else if (privilege == 9) {
+        //Company(3, 'เก็บคืน/ตรวจสอบ'),
         return Drawer(
-      child: ListView(
-        children: <Widget>[
-                myDrawerHeader(),
-                menuPickupOnu(),
-                Divider(),
-                menuCleanOnu(),
-                Divider(),
-                menuFindone(),
-                Divider(),
-                menuLogout(),
-                Divider(),
-                // showBack(),
-              ],
-            )
-        
-    );
-
-    } else if(privilege == 10){ //Company(4, 'เก็บคืน/ตรวจสอบ/ ใช้ใหม่'),
+            child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            menuPickupOnu(),
+            Divider(),
+            menuCleanOnu(),
+            Divider(),
+            menuFindone(),
+            Divider(),
+            menuLogout(),
+            Divider(),
+            // showBack(),
+          ],
+        ));
+      } else if (privilege == 10) {
+        //Company(4, 'เก็บคืน/ตรวจสอบ/ ใช้ใหม่'),
         return Drawer(
-        child: ListView(
-        children: <Widget>[
-                myDrawerHeader(),
-                menuPickupOnu(),
-                Divider(),
-                menuCleanOnu(),
-                Divider(),
-                // csZerodot5(), // โอนย้าย onu
-                // Divider(),
-                menuReuseOnu(),
-                Divider(),
-                menuFindone(),
-                Divider(),
-                menuLogout(),
-                Divider(),
-                // showBack(),
-              ],
-            )
-        
-    );
-
-    } else if(privilege == 11){
+            child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            menuPickupOnu(),
+            Divider(),
+            menuCleanOnu(),
+            Divider(),
+            // csZerodot5(), // โอนย้าย onu
+            // Divider(),
+            menuReuseOnu(),
+            Divider(),
+            menuFindone(),
+            Divider(),
+            menuLogout(),
+            Divider(),
+            // showBack(),
+          ],
+        ));
+      } else if (privilege == 11) {
         return Drawer(
-      child: ListView(
-        children: <Widget>[
-                myDrawerHeader(),
-                // menuFormPage(), // 'นำเข้า ONU',
-                // Divider(),
-                // menuListViewPage(),  // 'จ่าย ONU',
-                // Divider(),
-                csZerodot5(), // โอนย้าย onu
-                Divider(),
-                menuInstallOnu(),
-                Divider(),
-                menuPickupOnu(),
-                Divider(),
-                menuCleanOnu(),
-                Divider(),
-                // csZerodot5(), // โอนย้าย onu
-                // Divider(),
-                menuReuseOnu(),
-                Divider(),
-                menuFindone(),
-                Divider(),
-                formonlyweb(),
-                Divider(),
-                menuLogout(),
-                Divider(),
-                // showBack(),
-              ],
-            )    
-          );
+            child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            // menuFormPage(), // 'นำเข้า ONU',
+            // Divider(),
+            // menuListViewPage(),  // 'จ่าย ONU',
+            // Divider(),
+            csZerodot5(), // โอนย้าย onu
+            Divider(),
+            testTransfer(), // โอนย้าย onu
+            Divider(),
+            menuInstallOnu(),
+            Divider(),
+            menuPickupOnu(),
+            Divider(),
+            menuCleanOnu(),
+            Divider(),
+            // csZerodot5(), // โอนย้าย onu
+            // Divider(),
+            menuReuseOnu(),
+            Divider(),
+            menuFindone(),
+            Divider(),
+            formonlyweb(),
+            Divider(),
+            menuLogout(),
+            Divider(),
+            // showBack(),
+          ],
+        ));
       } else {
         return Drawer(
-      child: ListView(
-        children: <Widget>[
-                myDrawerHeader(),
-                // menuFormPage(), // 'นำเข้า ONU',
-                // Divider(),
-                // menuListViewPage(),  // 'จ่าย ONU',
-                // Divider(),
-                csZerodot5(), // โอนย้าย onu
-                Divider(),
-                menuInstallOnu(),
-                Divider(),
-                menuPickupOnu(),
-                Divider(),
-                menuCleanOnu(),
-                Divider(),
-                // csZerodot5(), // โอนย้าย onu
-                // Divider(),
-                menuReuseOnu(),
-                Divider(),
-                menuFindone(),
-                Divider(),
-                formonlyweb(),
-                Divider(),
-                delCPEcus(),
-                Divider(),
-                menuLogout(),
-                Divider(),
-                // showBack(),
-              ],
-            )    
-          );
+            child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            // menuFormPage(), // 'นำเข้า ONU',
+            // Divider(),
+            // menuListViewPage(),  // 'จ่าย ONU',
+            // Divider(),
+            csZerodot5(), // โอนย้าย onu
+            Divider(),
+            testTransfer(), // โอนย้าย onu
+            Divider(),
+            menuInstallOnu(),
+            Divider(),
+            menuPickupOnu(),
+            Divider(),
+            menuCleanOnu(),
+            Divider(),
+            // csZerodot5(), // โอนย้าย onu
+            // Divider(),
+            menuReuseOnu(),
+            Divider(),
+            menuFindone(),
+            Divider(),
+            formonlyweb(),
+            Divider(),
+            delCPEcus(),
+            Divider(),
+            menuLogout(),
+            Divider(),
+            // showBack(),
+          ],
+        ));
       }
-    } else if ((privilege > 0) && (temps == 'xxx')) { 
+    } else if ((privilege > 0) && (temps == 'xxx')) {
       return Drawer(
-      child: ListView(
-        children: <Widget>[
-          myDrawerHeader(),
-          Divider(),
-        ],
-       ),
+        child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            Divider(),
+          ],
+        ),
       );
-    
-    
     } else {
       return Drawer(
-      child: ListView(
-        children: <Widget>[
-          myDrawerHeader(),
-          listShowUser(),
-          Divider(),
-        ],
-      ),
-    );
+        child: ListView(
+          children: <Widget>[
+            myDrawerHeader(),
+            listShowUser(),
+            Divider(),
+          ],
+        ),
+      );
     }
   }
 
@@ -902,7 +910,6 @@ class _CloneUserState extends State<CloneUser> {
 
   @override
   Widget build(BuildContext context) {
-    
     return WillPopScope(
         onWillPop: _onBackPressed,
         child: privilege == 0

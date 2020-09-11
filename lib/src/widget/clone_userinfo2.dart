@@ -15,7 +15,9 @@ import 'package:onu_storage/src/screen/pre_getonu.dart';
 import 'package:onu_storage/src/screen/pre_pickup.dart';
 import 'package:onu_storage/src/screen/register.dart';
 import 'package:onu_storage/src/screen/reused_onu.dart';
+import 'package:onu_storage/src/screen/transfer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
 // import 'package:imei_plugin/imei_plugin.dart';
 
 class Cloneuser2 extends StatefulWidget {
@@ -126,8 +128,9 @@ class _Cloneuser2State extends State<Cloneuser2> {
     */
     // uid: user.fname, prv: user.province, priv: user.privilege
 
-    String urlString =
-        'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/signin';
+    //String urlString = 'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/signin';
+
+    String urlString = '${MyConstant().urltoServerApi}/signin';
 
     var body = {
       "username": widget.username.trim(),
@@ -137,6 +140,7 @@ class _Cloneuser2State extends State<Cloneuser2> {
 
     // var response = await get(urlString);
     var response = await post(urlString, body: body);
+    print(MyConstant().urltoServerApi);
     print(response.statusCode);
     print(widget.username.trim());
     print(widget.password.trim());
@@ -150,7 +154,6 @@ class _Cloneuser2State extends State<Cloneuser2> {
         myAlert('User False', 'No Username in my Database');
       } else {
         if (result['status']) {
-          
           String token = result['token'];
           token = token.split(' ').last;
           // print(token);
@@ -475,7 +478,7 @@ class _Cloneuser2State extends State<Cloneuser2> {
         color: Colors.yellow[700],
       ),
       title: Text(
-        'รับโอนย้าย ONU เข้า สนง.',
+        'รับโอนย้าย ONU(ใหม่)เข้า สนง.',
         style: TextStyle(fontSize: 18.0),
       ),
       // on tap == on click
@@ -483,6 +486,28 @@ class _Cloneuser2State extends State<Cloneuser2> {
         Navigator.of(context).pop();
         setState(() {
           myWidget = PreGetOnu();
+          // Navigator.of(context).pop();
+        });
+      },
+    ); // https://material.io/resources/icons/?style=baseline
+  }
+
+  Widget testTransfer() {
+    return ListTile(
+      leading: Icon(
+        Icons.filter_3,
+        size: 36.0,
+        color: Colors.yellow[700],
+      ),
+      title: Text(
+        'รับโอนย้าย ONU(เก่า)สถานะพร้อมใช้',
+        style: TextStyle(fontSize: 18.0),
+      ),
+      // on tap == on click
+      onTap: () {
+        Navigator.of(context).pop();
+        setState(() {
+          myWidget = Transfer();
           // Navigator.of(context).pop();
         });
       },
@@ -745,6 +770,8 @@ class _Cloneuser2State extends State<Cloneuser2> {
             // Divider(),
             csZerodot5(), // โอนย้าย onu
             Divider(),
+            testTransfer(), // โอนย้าย onu
+            Divider(),
             menuInstallOnu(),
             Divider(),
             menuPickupOnu(),
@@ -774,6 +801,8 @@ class _Cloneuser2State extends State<Cloneuser2> {
             // menuListViewPage(),  // 'จ่าย ONU',
             // Divider(),
             csZerodot5(), // โอนย้าย onu
+            Divider(),
+            testTransfer(), // โอนย้าย onu
             Divider(),
             menuInstallOnu(),
             Divider(),
