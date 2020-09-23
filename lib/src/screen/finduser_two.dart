@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:onu_storage/models/users_model.dart';
-
-
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class FindUsersTwo extends StatefulWidget {
 
@@ -31,7 +31,8 @@ class _FindUsersTwoState extends State<FindUsersTwo> {
   }
 
   Future<void> readAllData() async {
-    String urlString = 'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/findusercon';
+    // String urlString = 'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/findusercon';
+    String urlString = '${MyConstant().urltoServerApi}/findusercon';
 
     var body = {
       "fullemployee": widget.datafind,

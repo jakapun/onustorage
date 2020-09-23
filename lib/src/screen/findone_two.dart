@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:onu_storage/models/onusec_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class OnuModel extends StatefulWidget {
 
@@ -45,7 +47,8 @@ class _OnuModelState extends State<OnuModel> {
   }
 
   Future<void> readAllData() async {
-    String urlString = 'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/findonecon';
+    // String urlString = 'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/findonecon';
+    String urlString = '${MyConstant().urltoServerApi}/findonecon';
 
     var body = {
 

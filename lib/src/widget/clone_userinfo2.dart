@@ -18,7 +18,7 @@ import 'package:onu_storage/src/screen/reused_onu.dart';
 import 'package:onu_storage/src/screen/transfer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:onu_storage/src/utility/my_constant.dart';
-// import 'package:imei_plugin/imei_plugin.dart';
+// String urlString = '${MyConstant().urltoServerApi}/signin';
 
 class Cloneuser2 extends StatefulWidget {
   final String username, password;

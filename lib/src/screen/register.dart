@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:onu_storage/src/screen/api_page.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class Register extends StatefulWidget {
   // final String lineid, deviceid;
@@ -29,8 +31,8 @@ class _RegisterState extends State<Register> {
       getdeviceid;
   // FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   // 8a7a0833c6dc.sn.mynetname.net fttx200/200
-  final String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getprovince_concat";
-
+  // final String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getprovince_concat";
+  final String url = '${MyConstant().urltoServerApi}/getprovince_concat';
 
   List data = List(); //edited line
 
@@ -243,7 +245,9 @@ class _RegisterState extends State<Register> {
 
   Future<void> register() async {
     // http://8a7a08360daf.sn.mynetname.net:2528/api/getprovince";
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/signup";
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/signup";
+
+    String urlpost = '${MyConstant().urltoServerApi}/signup';
     String fullname = '$nameStringf $nameStringl';
     var body = {
       "fullname": fullname,

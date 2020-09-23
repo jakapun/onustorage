@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class SetPriv extends StatefulWidget {
   SetPriv() : super();
@@ -64,8 +66,8 @@ class _SetPrivState extends State<SetPriv> {
     prefs = await SharedPreferences.getInstance();
     String tempprv = prefs.getString('sprv');
     privilegeA = prefs.getInt('spriv');
-    String url =
-        "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getdivisions/$tempprv";
+    // String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getdivisions/$tempprv";
+    String url = '${MyConstant().urltoServerApi}/getdivisions/$tempprv';
     var res = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
@@ -246,8 +248,8 @@ class _SetPrivState extends State<SetPriv> {
   Future<void> uppriv() async {
     // addgroup
 
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/updatepriv";
-
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/updatepriv";
+    String urlpost = '${MyConstant().urltoServerApi}/updatepriv';
     var body = {
       "user": nameString.trim(),
       "priv": _selectedCompany.id.toString()

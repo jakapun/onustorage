@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class AddSoon extends StatefulWidget {
   @override
@@ -26,18 +28,23 @@ class Company {
 }
 
 class _AddSoonState extends State<AddSoon> {
-
   // Explicit
   final formKey = GlobalKey<FormState>();
-  String nameString1, nameString2, abbrOString, abbrTString, _mySelection, codeone, tempprv;
+  String nameString1,
+      nameString2,
+      abbrOString,
+      abbrTString,
+      _mySelection,
+      codeone,
+      tempprv;
   // FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   List<Company> _companies = Company.getCompanies();
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
   Company _selectedCompany;
   SharedPreferences prefs;
 
-  final String url =
-      "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getprovince";
+  //final String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getprovince";
+  final String url = '${MyConstant().urltoServerApi}/getprovince';
 
   List data = List(); //edited line
 
@@ -60,7 +67,6 @@ class _AddSoonState extends State<AddSoon> {
     setState(() {
       codeone = '$randInt';
     });
-    
   }
 
   @override
@@ -96,11 +102,11 @@ class _AddSoonState extends State<AddSoon> {
   Widget nameText1() {
     return TextFormField(
       autofocus: true,
-        initialValue: '',
-        style: new TextStyle(
-                color: Colors.red,
-                fontSize: 20.0,
-              ),
+      initialValue: '',
+      style: new TextStyle(
+        color: Colors.red,
+        fontSize: 20.0,
+      ),
       decoration: InputDecoration(
         labelText: 'LocationName :',
         labelStyle: TextStyle(color: Colors.pink[400]),
@@ -171,7 +177,6 @@ class _AddSoonState extends State<AddSoon> {
     );
   }
 
-  
   Widget dropdownButton() {
     return DropdownButton(
       icon: Icon(Icons.arrow_drop_down),
@@ -219,8 +224,11 @@ class _AddSoonState extends State<AddSoon> {
   }
 
   Future<void> register() async {
+    // String urlString = '${MyConstant().urltoServerApi}/signin';
     // http://8a7a08360daf.sn.mynetname.net:2528/api/getprovince";
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/addsoon";
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/addsoon";
+    
+    String urlpost = '${MyConstant().urltoServerApi}/addsoon';
 
     var ab = (tempprv.split('-'));
     String firsta = ab[0];
@@ -259,7 +267,6 @@ class _AddSoonState extends State<AddSoon> {
   }
 
   Future<void> setUpDisplayName() async {
-
     prefs = await SharedPreferences.getInstance();
 
     tempprv = prefs.getString('sprv');
@@ -272,14 +279,14 @@ class _AddSoonState extends State<AddSoon> {
     //     MaterialPageRoute(builder: (BuildContext context) => ;
     // Navigator.of(context)
     //     .pushAndRemoveUntil(serviceRoute, (Route<dynamic> route) => false);
-    
   }
 
   Future<bool> _onShowCondition() {
     return showDialog(
         context: context,
         builder: (context) => CupertinoAlertDialog(
-              title: Text('ต้องการเพิ่มศูนย์ชื่อ  $nameString1 \r\n ฝ่าย = ${_selectedCompany.name} \r\n จังหวัด = $_mySelection '),
+              title: Text(
+                  'ต้องการเพิ่มศูนย์ชื่อ  $nameString1 \r\n ฝ่าย = ${_selectedCompany.name} \r\n จังหวัด = $_mySelection '),
               actions: <Widget>[
                 FlatButton(
                   child: Text('No',
@@ -290,8 +297,8 @@ class _AddSoonState extends State<AddSoon> {
                     child: Text('Yes',
                         style: TextStyle(fontSize: 17.0, color: Colors.blue)),
                     onPressed: () {
-                    register();
-                    Navigator.pop(context, true);
+                      register();
+                      Navigator.pop(context, true);
                     })
               ],
             ));

@@ -7,6 +7,8 @@ import 'package:onu_storage/src/screen/lastsubmit.dart';
 // import 'package:onu_storage/src/screen/post_ionu.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class PreGetOnu extends StatefulWidget {
   @override
@@ -181,8 +183,10 @@ class _PreGetOnuState extends State<PreGetOnu> {
   Future<void> transferonu() async {
     // addgroup
 
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/transferonu"; //req.body.onuid
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/transferonu"; //req.body.onuid
     //req.body.onuid
+    String urlpost = '${MyConstant().urltoServerApi}/transferonu';
+    
     var body = {
       "onuid": qrCodeString.trim(),
       "userlast": tempuid.trim(),

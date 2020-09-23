@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:http/http.dart' as http;
 // import 'package:onu_storage/src/utility/my_constant.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class Transfer extends StatefulWidget {
   @override
@@ -216,8 +218,8 @@ class _TransferState extends State<Transfer> {
 
     print('call post transfer onu');
 
-    String urlpost =
-        "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/transferonutwo";
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/transferonutwo";
+    String urlpost = '${MyConstant().urltoServerApi}/transferonutwo';
 
     var body = {
       "onuid": qrCodeString.trim(),

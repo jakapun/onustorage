@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class NewSection extends StatefulWidget {
   @override
@@ -13,8 +15,8 @@ class _NewSectionState extends State<NewSection> {
   String nameString1, nameString2, abbrOString, abbrTString, _mySelection;
   // FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  final String url =
-      "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getprovince";
+  // final String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getprovince";
+  final String url = '${MyConstant().urltoServerApi}/getprovince';
 
   List data = List(); //edited line
 
@@ -190,7 +192,8 @@ class _NewSectionState extends State<NewSection> {
 
   Future<void> register() async {
     // http://8a7a08360daf.sn.mynetname.net:2528/api/getprovince";
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/adddivis";
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/adddivis";
+    String urlpost = '${MyConstant().urltoServerApi}/adddivis';
 
     var body = {
       "Name1": nameString1.trim(),

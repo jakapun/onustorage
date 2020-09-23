@@ -11,6 +11,8 @@ import 'package:onu_storage/src/screen/lastsubmit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:grouped_buttons/grouped_buttons.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class Postinstall extends StatefulWidget {
 
@@ -88,7 +90,8 @@ class _PostinstallState extends State<Postinstall> {
   static final validCharacters = RegExp(r'^[A-Z0-9&%=]+$');
   
 
-  final String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getmodel_concat";
+  // final String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getmodel_concat";
+  final String url = '${MyConstant().urltoServerApi}/getmodel_concat';
 
 
   List data = List(); //edited line
@@ -189,7 +192,8 @@ class _PostinstallState extends State<Postinstall> {
   Future<void> sendnewonu() async {
     // addgroup
 
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/newonuinstall";
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/newonuinstall";
+    String urlpost = '${MyConstant().urltoServerApi}/newonuinstall';
     
     var body = {
       "chkuid": tempuid.trim(),

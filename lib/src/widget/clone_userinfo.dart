@@ -20,6 +20,8 @@ import 'package:onu_storage/src/screen/reused_onu.dart';
 import 'package:onu_storage/src/screen/transfer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:imei_plugin/imei_plugin.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class CloneUser extends StatefulWidget {
   const CloneUser(
@@ -133,8 +135,8 @@ class _CloneUserState extends State<CloneUser> {
     101.109.115.27:2500/api/flutterget/User=123456
     */
       // uid: user.fname, prv: user.province, priv: user.privilege
-      String urlString =
-          'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/signin';
+      // String urlString = 'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/signin';
+      String urlString = '${MyConstant().urltoServerApi}/signin';
 
       var body = {
         "username": getlineid,

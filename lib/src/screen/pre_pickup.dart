@@ -6,6 +6,8 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:onu_storage/src/screen/post_ionu.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class Prepick extends StatefulWidget {
   @override
@@ -180,8 +182,9 @@ class _PrepickState extends State<Prepick> {
   Future<void> sendchkonu() async {
     // addgroup
 
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/prechkninstall"; //req.body.onuid
-    //req.body.onuid
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/prechkninstall"; //req.body.onuid
+    // req.body.onuid
+    String urlpost = '${MyConstant().urltoServerApi}/prechkninstall';
     var body = {
       "onuid": qrCodeString.trim(),
       // "qrtext": qrCodeString.trim()

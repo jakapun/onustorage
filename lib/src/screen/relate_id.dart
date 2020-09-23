@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class RelateId extends StatefulWidget {
   RelateId() : super();
@@ -49,8 +51,8 @@ class _RelateIdState extends State<RelateId> {
     privilegeA = prefs.getInt('spriv');
     var ac = (tempprv.split('-'));
     String firstc = ac[0];
-    String url =
-        "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getdivisions/$firstc";
+    // String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getdivisions/$firstc";
+    String url = '${MyConstant().urltoServerApi}/getdivisions/$firstc';
     var res = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
@@ -74,10 +76,10 @@ class _RelateIdState extends State<RelateId> {
     // http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getprovince_concat
     if(privilegeB == 12){
     print(firstb);
-    urlcs = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getcservice_concat2/$firstb";
+    urlcs = '${MyConstant().urltoServerApi}/getcservice_concat2/$firstb';
     }else{
     print(firsta);
-    urlcs = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getcservice_concat/$firsta";
+    urlcs = '${MyConstant().urltoServerApi}/getcservice_concat/$firsta';
     }
         
     var rescs = await http
@@ -299,7 +301,8 @@ class _RelateIdState extends State<RelateId> {
 
   Future<void> register() async {
     // addgroup
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/addgroup";
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/addgroup";
+    String urlpost = '${MyConstant().urltoServerApi}/addgroup';
 
     var body = {
                 "idstaff": nameString.trim(), 

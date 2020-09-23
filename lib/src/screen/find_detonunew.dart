@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:onu_storage/models/newonu_model.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class FindDetNOnu extends StatefulWidget {
 
@@ -28,7 +30,8 @@ class _FindDetNOnuState extends State<FindDetNOnu> {
   }
 
   Future<void> readAllData() async {
-    String urlString = 'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/findnewonui';
+    // String urlString = 'http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/findnewonui';
+    String urlString = '${MyConstant().urltoServerApi}/findnewonui';
 
     var body = {
       "nonucondi": widget.datafind,

@@ -8,6 +8,8 @@ import 'package:onu_storage/src/screen/lastsubmit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:grouped_buttons/grouped_buttons.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 
 class StampOut extends StatefulWidget {
@@ -141,7 +143,8 @@ class _StampOutState extends State<StampOut> {
   Future<void> sendstampout() async {
     // addgroup
 
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/newonuinstall";
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/newonuinstall";
+    String urlpost = '${MyConstant().urltoServerApi}/newonuinstall';
     
     var body = {
       "chkuid": tempuid.trim(),

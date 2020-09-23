@@ -6,7 +6,8 @@ import 'package:onu_storage/src/screen/lastsubmit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:grouped_buttons/grouped_buttons.dart';
-
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class DelWserial extends StatefulWidget {
   @override
@@ -158,7 +159,8 @@ class _DelWserialState extends State<DelWserial> {
 
     print('call post senddelwserial -> /api_v2/delwserial');
 
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/delwserial";
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/delwserial";
+    String urlpost = '${MyConstant().urltoServerApi}/delwserial';
     
     var body = {
 

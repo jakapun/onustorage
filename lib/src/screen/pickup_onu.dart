@@ -11,6 +11,8 @@ import 'package:onu_storage/src/screen/lastsubmit.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class PickupOnu extends StatefulWidget {
   PickupOnu() : super();
@@ -97,8 +99,8 @@ class _PickupOnuState extends State<PickupOnu> {
   //static final validCharacters = RegExp(r'^[a-zA-Z0-9_\-=@,\.;]+$');
   static final validCharacters = RegExp(r'^[A-Z0-9&%=]+$');
 
-  final String url =
-      "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getmodel_concat";
+  // final String url = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/getmodel_concat";
+  final String url = '${MyConstant().urltoServerApi}/getmodel_concat';
 
   List data = List(); //edited line
 
@@ -221,9 +223,8 @@ class _PickupOnuState extends State<PickupOnu> {
     //onuid = 1234567890, dropdownstatic = ap_dlink , lat = 16.4426949, lng = 102.8344221, urlPicture = code7950
     print('call post inonusec');
 
-    String urlpost =
-        "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/inonusec";
-
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/inonusec";
+    String urlpost = '${MyConstant().urltoServerApi}/inonusec';
     var body = {
       "circuitj": name.toUpperCase(),
       "onuid": qrCodeString.trim(),

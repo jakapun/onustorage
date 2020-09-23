@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class DelUser extends StatefulWidget {
   @override
@@ -21,7 +23,9 @@ class _DelUserState extends State<DelUser> {
 
   Future<void> postdeluser() async {
     // http://8a7a08360daf.sn.mynetname.net:2528/api/getprovince";
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/deleteuseronu";
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/deleteuseronu";
+    String urlpost = '${MyConstant().urltoServerApi}/deleteuseronu';
+    
     var body = {
       "username": emailString.trim()
     };

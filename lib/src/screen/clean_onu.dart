@@ -11,6 +11,8 @@ import 'package:onu_storage/src/screen/lastsubmit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:onu_storage/src/utility/my_constant.dart';
+// String urlString = '${MyConstant().urltoServerApi}';
 
 class CleanOnu extends StatefulWidget {
 
@@ -449,7 +451,8 @@ class _CleanOnuState extends State<CleanOnu> {
 
     print('call post upstatustwo');
 
-    String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/upstatustwo";
+    // String urlpost = "http://8a7a0833c6dc.sn.mynetname.net:8099/api_v2/upstatustwo";
+    String urlpost = '${MyConstant().urltoServerApi}/upstatustwo';
     
     var body = {
 
