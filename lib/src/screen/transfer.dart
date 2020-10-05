@@ -26,7 +26,7 @@ class _TransferState extends State<Transfer> {
       qrCodeString = '',
       model1 = '',
       firsta = '';
-  String tempprv, temprela, tempcs, token = '', tempuid = '', radiovalue = '';
+  String tempprv, temprela, tempcs, token = '', tempuid = '';
   SharedPreferences prefs;
   double lat, lng;
   final formKey = GlobalKey<FormState>();
@@ -196,7 +196,8 @@ class _TransferState extends State<Transfer> {
             } else {
               // check name,detail
               print(
-                  'onuid = $qrCodeString, radio = $radiovalue, lat = $lat, lng = $lng');
+                  'onuid = $qrCodeString, lat = $lat, lng = $lng');
+              myAlert('Data', 'onuid = $qrCodeString, lat = $lat, lng = $lng');
               sendupstatustwo();
             }
           },
@@ -242,13 +243,6 @@ class _TransferState extends State<Transfer> {
       if (result.toString() == 'null') {
         myAlert('Not Success', 'No ,put data in my Database');
       } else {
-        if (_isButtonDisabled == true) {
-          setState(() {
-            _isButtonDisabled = false; // disable ปุ่ม
-          });
-        } else {
-          print('_isButtonDisabled = false');
-        }
         if ((result['status']) && (result['success'])) {
           // String getmessage = ' บันทึกข้อมูล เก็บคืน/ขอใช้ต่อ OK';
           String getmessage = result['message2'];

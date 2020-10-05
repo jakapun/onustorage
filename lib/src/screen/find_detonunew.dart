@@ -6,7 +6,6 @@ import 'package:onu_storage/src/utility/my_constant.dart';
 // String urlString = '${MyConstant().urltoServerApi}';
 
 class FindDetNOnu extends StatefulWidget {
-
   final String datafind;
 
   FindDetNOnu({
@@ -19,7 +18,6 @@ class FindDetNOnu extends StatefulWidget {
 }
 
 class _FindDetNOnuState extends State<FindDetNOnu> {
-
   String name;
   List<NonuModel> nonusModels = [];
 
@@ -36,19 +34,23 @@ class _FindDetNOnuState extends State<FindDetNOnu> {
     var body = {
       "nonucondi": widget.datafind,
     };
-    // headers: {HttpHeaders.authorizationHeader: "JWT $token"}, 
+    // headers: {HttpHeaders.authorizationHeader: "JWT $token"},
     var response = await http.post(urlString, body: body);
-
+    // letterID Serial mac Status CounterService Circuit
     var result = json.decode(response.body);
     print('result = $result');
-
-    for (var myNonuModel in result) {
-      NonuModel nonuModel = NonuModel.fromJSON(myNonuModel);
-      setState(() {
-        nonusModels.add(nonuModel);
-      });
+    myAlert('Show', result);
+    
+    if (response.body.length < 10) {
+      myAlert('No Data', 'ไม่พบ ข้อมูล ที่ต้องการค้นหา');
+    } else {
+      for (var myNonuModel in result) {
+        NonuModel nonuModel = NonuModel.fromJSON(myNonuModel);
+        setState(() {
+          nonusModels.add(nonuModel);
+        });
+      }
     }
-
   }
 
   // letterID = parseJSON['letterID'];
@@ -59,6 +61,40 @@ class _FindDetNOnuState extends State<FindDetNOnu> {
   //   circuit = parseJSON['Circuit'];
 
   // ////////////////////
+  void myAlert(String titleString, String messageString) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: showTitleAlert(titleString),
+          content: Text(messageString),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  Widget showTitleAlert(String title) {
+    return ListTile(
+      leading: Icon(
+        Icons.add_alert,
+        size: 36.0,
+        color: Colors.red,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(fontSize: 24.0, color: Colors.red.shade800),
+      ),
+    );
+  }
+
   Widget showLetterID(int index) {
     return Container(
       alignment: Alignment.topLeft,
@@ -103,7 +139,9 @@ class _FindDetNOnuState extends State<FindDetNOnu> {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
-        (nonusModels[index].counterService == null) ? 'no CounterService' : nonusModels[index].counterService,
+        (nonusModels[index].counterService == null)
+            ? 'no CounterService'
+            : nonusModels[index].counterService,
         style: TextStyle(fontSize: 20.0),
       ),
     );
@@ -114,14 +152,16 @@ class _FindDetNOnuState extends State<FindDetNOnu> {
       alignment: Alignment.topLeft,
       //((lat.toString().isEmpty) || (_isButtonDisabled == false)) ? showTextnull() : uploadValueButton(),
       child: Text(
-        (nonusModels[index].circuit == null) ? 'no Circuit ID' : nonusModels[index].circuit,
+        (nonusModels[index].circuit == null)
+            ? 'no Circuit ID'
+            : nonusModels[index].circuit,
         style: TextStyle(fontSize: 20.0),
       ),
     );
   }
 
   // ////////////////////
-  
+
   Widget sLetterID(int index) {
     return Container(
       padding: EdgeInsets.all(8.0),
@@ -219,7 +259,7 @@ class _FindDetNOnuState extends State<FindDetNOnu> {
                 sMac(index),
                 sStatus(index),
                 sCounterService(index),
-                sCircuit(index),              
+                sCircuit(index),
               ],
             ),
           ),
@@ -236,21 +276,20 @@ class _FindDetNOnuState extends State<FindDetNOnu> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        backgroundColor: Colors.green[800],
-        title: Text('รายละเอียด ONU(NEW)'),
-        // actions: <Widget>[uploadButton()],
-      ),
-      body: Form(
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+          backgroundColor: Colors.green[800],
+          title: Text('รายละเอียด ONU(NEW)'),
+          // actions: <Widget>[uploadButton()],
+        ),
+        body: Form(
           child: showDtailNOnu(),
-      )
-      
-    // return showUserList();
-    );
+        )
+
+        // return showUserList();
+        );
   }
 }
