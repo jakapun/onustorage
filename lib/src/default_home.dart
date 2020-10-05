@@ -97,7 +97,7 @@ class _DefaultHomeState extends State<DefaultHome> {
         child: Container(
           decoration: BoxDecoration(
             gradient: RadialGradient(
-              colors: [Colors.white, Colors.green.shade600],
+              colors: [Colors.white, Colors.green.shade100],
               radius: 1.2,
             ),
           ),

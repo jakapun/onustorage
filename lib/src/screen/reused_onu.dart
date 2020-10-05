@@ -163,7 +163,7 @@ class _ReusedOnuState extends State<ReusedOnu> {
       child: TextFormField(
         autofocus: true,
         initialValue: '...',
-        autovalidate: false,
+        // autovalidate: false,
         style: new TextStyle(
           color: Colors.red,
           fontSize: 20.0,

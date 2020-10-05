@@ -31,7 +31,8 @@ class _TransferState extends State<Transfer> {
   double lat, lng;
   final formKey = GlobalKey<FormState>();
   File file;
-  bool imageBool = false, _isButtonDisabled = true;
+  bool imageBool = false;
+  // bool _isButtonDisabled = true;
 
 // method
   @override
