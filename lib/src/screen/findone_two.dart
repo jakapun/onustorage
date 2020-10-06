@@ -62,10 +62,10 @@ class _OnuModelState extends State<OnuModel> {
 
     var result = json.decode(response.body);
     print('result = $result');
-    myAlert('Show', result);
+    print(response.body.length);
 
     // if (result.toString() == 'null') {
-    if (response.body.length < 10) {
+    if (response.body.length < 55) {
       myAlert('No Data', 'ไม่พบ ข้อมูล ที่ต้องการค้นหา');
     } else {
       for (var myOnuModel in result) {
@@ -75,6 +75,17 @@ class _OnuModelState extends State<OnuModel> {
         });
       }
     }
+
+    // if (result.toString() == 'null') {
+    //     myAlert('Not Insert', 'No Create in my Database');
+    //   } else {
+    //     if (result['status']) {
+    //       String getmessage = result['message'];
+    //       myAlert('OK', '$getmessage \r\n ถ้าลงทะเบียนครั้งแรก กรุณาติดต่อ \r\n Admin จังหวัดเพื่อกำหนด ศูนย์/สิทธิ');
+    //     } else {
+    //       myAlert('Not OK', 'message = Null');
+    //     }
+    //   }
   }
 
   void myAlert(String titleString, String messageString) {

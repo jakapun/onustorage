@@ -39,9 +39,9 @@ class _FindDetNOnuState extends State<FindDetNOnu> {
     // letterID Serial mac Status CounterService Circuit
     var result = json.decode(response.body);
     print('result = $result');
-    myAlert('Show', result);
+    print(response.body.length);
     
-    if (response.body.length < 10) {
+    if (response.body.length < 55) {
       myAlert('No Data', 'ไม่พบ ข้อมูล ที่ต้องการค้นหา');
     } else {
       for (var myNonuModel in result) {
