@@ -684,54 +684,62 @@ class _PickupOnuState extends State<PickupOnu> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      child: Container(
-        alignment: Alignment.topCenter,
-        // padding: EdgeInsets.only(top: 60.0),
-        child: ListView(
-          // alignment: Alignment.topCenter,
-          // padding: EdgeInsets.only(top: 60.0),
-          padding: EdgeInsets.only(
-            // bottom: 50.0,
-            right: 10.0,
-            left: 10.0,
-          ),
-          children: <Widget>[
-            showhpage(),
-            showImage(),
-            showButton(),
-            SizedBox(
-              height: 10.0,
-            ),
-            SelectableText(
-              '$qrCodeString',
-              style: TextStyle(fontSize: 20.0),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            //dropdownstatic(),
-            dropdownButton(),
-            SizedBox(
-              height: 10.0,
-            ),
-            // modeltext(),
-            nameText(),
-            SizedBox(
-              height: 10.0,
-            ),
-            // detailText(),
-            // contactText(),
-            radiocheck1(),
-            SizedBox(
-              height: 10.0,
-            ),
-            (lat.toString().isNotEmpty) ? uploadValueButton() : showtxt(),
-          ],
+    return Scaffold(
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+          backgroundColor: Colors.green[800],
+          title: Text('เก็บคืน ONU/อื่นๆ'),
+          // actions: <Widget>[uploadButton()],
         ),
-      ),
-    );
+        body: Form(
+          key: formKey,
+          child: Container(
+            alignment: Alignment.topCenter,
+            // padding: EdgeInsets.only(top: 60.0),
+            child: ListView(
+              // alignment: Alignment.topCenter,
+              // padding: EdgeInsets.only(top: 60.0),
+              padding: EdgeInsets.only(
+                // bottom: 50.0,
+                right: 10.0,
+                left: 10.0,
+              ),
+              children: <Widget>[
+                // showhpage(),
+                showImage(),
+                showButton(),
+                SizedBox(
+                  height: 10.0,
+                ),
+                SelectableText(
+                  '$qrCodeString',
+                  style: TextStyle(fontSize: 20.0),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                //dropdownstatic(),
+                dropdownButton(),
+                SizedBox(
+                  height: 10.0,
+                ),
+                // modeltext(),
+                nameText(),
+                SizedBox(
+                  height: 10.0,
+                ),
+                // detailText(),
+                // contactText(),
+                radiocheck1(),
+                SizedBox(
+                  height: 10.0,
+                ),
+                (lat.toString().isNotEmpty) ? uploadValueButton() : showtxt(),
+              ],
+            ),
+          ),
+        )
+      );
   }
 }

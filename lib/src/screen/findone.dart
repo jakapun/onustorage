@@ -63,8 +63,8 @@ class _FindOneState extends State<FindOne> {
     return Column(
       children: <Widget>[
         Text(
-          'ดูสถานะ ONU ล่าสุด',
-          style: TextStyle(fontSize: 25.0),
+          'ดูสถานะ ONU ล่าสุด (แยกตารางเก็บ)',
+          style: TextStyle(fontSize: 20.0),
         ),
         // Text('เก็บคืน ONU')
       ],
@@ -76,8 +76,8 @@ class _FindOneState extends State<FindOne> {
       width: 220.0,
       child: RadioButtonGroup(
           labels: [
-            "ONU(NEW)",
-            "ONU เก่าเก็บใช้ใหม่",
+            "ONU (NEW) => Device",
+            "ONU เก่าเก็บใช้ใหม่ => Onusec",
           ],
           disabled: [
             // "In Area"
@@ -204,7 +204,14 @@ class _FindOneState extends State<FindOne> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return Scaffold(
+      resizeToAvoidBottomPadding: false,
+      appBar: AppBar(
+        backgroundColor: Colors.green[800],
+        title: Text('สถานะ ONU ล่าสุด (แยกตาราง)'),
+        // actions: <Widget>[uploadButton()],
+      ),
+      body: Form(
       key: formKey,
       child: ListView(
         padding: EdgeInsets.only(
@@ -213,7 +220,7 @@ class _FindOneState extends State<FindOne> {
           left: 10.0,
         ),
         children: <Widget>[
-          showhpage(),
+          // showhpage(),
           SizedBox(
             height: 10.0,
           ),         
@@ -235,7 +242,7 @@ class _FindOneState extends State<FindOne> {
           uploadValueButton(),
         ],
       ),
-
+     )
     );
   }
 

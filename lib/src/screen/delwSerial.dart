@@ -42,7 +42,7 @@ class _DelWserialState extends State<DelWserial> {
   Widget serialText() {
     return TextFormField(
       decoration: InputDecoration(
-        labelText: 'Serial :',
+        labelText: 'Serial ONU/CPE :',
         labelStyle: TextStyle(color: Colors.brown),
         helperText: ' พิมพ์ serail number',
         helperStyle: TextStyle(color: Colors.brown),
@@ -82,8 +82,8 @@ class _DelWserialState extends State<DelWserial> {
       width: 280.0,
       child: RadioButtonGroup(
           labels: [
-            "ลบ Serial ONU(NEW)",
-            "ลบ Serial ONU เก่าเก็บจากลูกค้า",
+            "ลบ ONU(NEW) <= Device",
+            "ลบ ONU เก่าจากลูกค้า <= Onusec",
           ],
           disabled: [
             // "In Area"
@@ -105,7 +105,7 @@ class _DelWserialState extends State<DelWserial> {
         FloatingActionButton(
           elevation: 15.0,
           // foregroundColor: Colors.green[900],
-          tooltip: 'กดเพื่อจะลบข้อมูล ONU/อุปกรณ์',
+          tooltip: 'กดเพื่อจะลบข้อมูล ONU/อุปกรณ์ปลายทาง',
           child: Icon(
             Icons.cloud_upload,
             size: 40.0,
@@ -211,7 +211,7 @@ class _DelWserialState extends State<DelWserial> {
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         backgroundColor: Colors.green[800],
-        title: Text('ลบข้อมูล ONU/อุปกรณ์'),
+        title: Text('ลบข้อมูล ONU/อุปกรณ์ปลายทาง'),
         // actions: <Widget>[uploadButton()],
       ),
       body: Form(

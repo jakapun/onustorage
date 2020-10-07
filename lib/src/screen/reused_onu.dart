@@ -571,7 +571,14 @@ class _ReusedOnuState extends State<ReusedOnu> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return Scaffold(
+      resizeToAvoidBottomPadding: false,
+      appBar: AppBar(
+        backgroundColor: Colors.green[800],
+        title: Text('นำ ONU/อื่นๆ เดิมมาใช้ใหม่'),
+        // actions: <Widget>[uploadButton()],
+      ),
+      body: Form(
       key: formKey,
       child: ListView(
         padding: EdgeInsets.only(
@@ -580,7 +587,7 @@ class _ReusedOnuState extends State<ReusedOnu> {
           left: 10.0,
         ),
         children: <Widget>[
-          showhpage(),
+          // showhpage(),
           showImage(),
           showButton(),
           SizedBox(
@@ -619,6 +626,7 @@ class _ReusedOnuState extends State<ReusedOnu> {
           (lat.toString().isNotEmpty) ? uploadValueButton() : showtxt(),
         ],
       ),
+     )
     );
   }
 }

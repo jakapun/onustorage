@@ -525,7 +525,14 @@ class _CleanOnuState extends State<CleanOnu> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return Scaffold(
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+          backgroundColor: Colors.green[800],
+          title: Text('ทำความสะอาด ONU/อื่นๆ'),
+          // actions: <Widget>[uploadButton()],
+        ),
+        body: Form(
       key: formKey,
 
       child: ListView(
@@ -535,7 +542,7 @@ class _CleanOnuState extends State<CleanOnu> {
           left: 10.0,
         ),
         children: <Widget>[
-          showhpage(),
+          // showhpage(),
           showImage(),
           showButton(),
           SizedBox(
@@ -562,7 +569,7 @@ class _CleanOnuState extends State<CleanOnu> {
           uploadValueButton(),
         ],
       ),
-
+     )
     );
   }
 }
